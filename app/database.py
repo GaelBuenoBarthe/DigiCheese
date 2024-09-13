@@ -5,7 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 # connexion a la base de donnée et déclaration de la base avec sql alchemy
 
 # url de connexion de la base
-SQLALCHEMY_DATABASE_URL = "mysql://root:@localhost/fromagerie_com"
+SQLALCHEMY_DATABASE_URL = "mysql://dev:12345@localhost/fromagerie_com"
 
 
 # permet de définir les paramètre de connexion à la base
