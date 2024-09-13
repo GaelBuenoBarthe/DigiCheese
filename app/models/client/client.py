@@ -1,19 +1,26 @@
-from sqlalchemy import Column, Integer, String, Date, Boolean, ForeignKey, Index, Numeric, Float,MetaData
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy.orm import relationship
 
 from app.database import Base
 
 class Client(Base):
-	__tablename__ = "t_client"
+    """
+    Modèle SQLAlchemy représentant un client dans la base de données.
+    """
+    __tablename__ = "clients"
 
-	codcli = Column(Integer,primary_key=True)
-	genrecli = Column(String(8), default=None)
-	nomcli = Column(String(40), default=None, index=True)
-	prenomcli = Column(String(30), default=None)
-	adresse1cli = Column(String(50), default=None)
-	adresse2cli = Column(String(50), default=None)
-	adresse3cli = Column(String(50), default=None)
-	villecli_id = Column(Integer,ForeignKey('t_communes.id'))
-	telcli = Column(String(10), default=None)
-	emailcli = Column(String(255), default=None)
-	portcli = Column(String(10), default=None)
-	newsletter = Column(Integer)
+    id = Column(Integer, primary_key=True, index=True)
+    genre = Column(String(8))
+    nom = Column(String(40), index=True)
+    prenom = Column(String(30))
+    adresse1 = Column(String(50))
+    adresse2 = Column(String(50))
+    adresse3 = Column(String(50))
+    ville_id = Column(Integer, ForeignKey("commune.id"))
+    telephone = Column(String(10))
+    email = Column(String(255))
+    portable = Column(String(10))
+    newsletter = Column(Boolean)
+
+    # Relation avec Commande (1-n)
+    commandes = relationship("Commande", back_populates="client")
