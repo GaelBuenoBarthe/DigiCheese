@@ -10,6 +10,11 @@ from app.models.commande.detail import Detail
 from app.models.commande.detail_objet import DetailObjet
 from app.models.utilisateur.utilisateur import Utilisateur
 from app.models.utilisateur.role import Role
+from app.models.stock.objet_cond import ObjetCond
+from app.models.stock.poids import Poids
+from app.models.stock.vignette import Vignette
+from app.models.stock.conditionnement import Conditionnement
+from app.models.stock.objet import Objet
 
 # url de connexion de la base
 SQLALCHEMY_DATABASE_URL = "mysql://dev:12345@localhost/fromagerie_com"

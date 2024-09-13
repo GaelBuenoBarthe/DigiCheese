@@ -1,38 +1,38 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from typing import List
-from app import crud
-from app.schemas.detail_objet import DetailObjet, DetailObjetCreate
-from app.database import SessionLocal
+from app.database import get_db
+from app.schemas.detail_objet import DetailObjetCreate, DetailObjetResponse
+from app.infrastructure.api.commande.detail_objet_controller import (
+    get_all_detail_objets,
+    get_detail_objet,
+    create_detail_objet,
+    update_detail_objet,
+    delete_detail_objet,
+)
 
 router = APIRouter()
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+# Get all DetailObjet entries
+@router.get("/", response_model=list[DetailObjetResponse])
+def route_get_all_detail_objets(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    return get_all_detail_objets(skip, limit, db)
 
-@router.post("/detail_objets/", response_model=DetailObjet)
-def create_detail_objet(detail_objet: DetailObjetCreate, db: Session = Depends(get_db)):
-    return crud.create_detail_objet(db=db, detail_objet=detail_objet)
+# Get a DetailObjet entry by ID
+@router.get("/{id}", response_model=DetailObjetResponse)
+def route_get_detail_objet(id: int, db: Session = Depends(get_db)):
+    return get_detail_objet(id, db)
 
-@router.get("/detail_objets/{id}", response_model=DetailObjet)
-def read_detail_objet(id: int, db: Session = Depends(get_db)):
-    db_detail_objet = crud.get_detail_objet(db, id=id)
-    if db_detail_objet is None:
-        raise HTTPException(status_code=404, detail="Detail objet non trouvé")
-    return db_detail_objet
+# Create a new DetailObjet entry
+@router.post("/", response_model=DetailObjetResponse)
+def route_create_detail_objet(detail_objet: DetailObjetCreate, db: Session = Depends(get_db)):
+    return create_detail_objet(detail_objet, db)
 
-@router.get("/detail_objets/", response_model=List[DetailObjet])
-def read_detail_objets(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    return crud.get_detail_objets(db, skip=skip, limit=limit)
+# Update an existing DetailObjet entry
+@router.put("/{id}", response_model=DetailObjetResponse)
+def route_update_detail_objet(id: int, detail_objet_update: DetailObjetCreate, db: Session = Depends(get_db)):
+    return update_detail_objet(id, detail_objet_update, db)
 
-@router.put("/detail_objets/{id}", response_model=DetailObjet)
-def update_detail_objet(id: int, detail_objet: DetailObjetCreate, db: Session = Depends(get_db)):
-    return crud.update_detail_objet(db=db, id=id, detail_objet=detail_objet)
-
-@router.delete("/detail_objets/{id}", response_model=DetailObjet)
-def delete_detail_objet(id: int, db: Session = Depends(get_db)):
-    return crud.delete_detail_objet(db=db, id=id)
+# Delete a DetailObjet entry
+@router.delete("/{id}", response_model=DetailObjetResponse)
+def route_delete_detail_objet(id: int, db: Session = Depends(get_db)):
+    return delete_detail_objet(id, db)

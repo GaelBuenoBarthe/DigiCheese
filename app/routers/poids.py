@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.schemas.poids import PoidsCreate, PoidsResponse
-from app.infrastructure.api.stock.poids import (
+from app.infrastructure.api.stock.poids_controller import (
     get_all_poids,
     get_poids,
     create_poids,

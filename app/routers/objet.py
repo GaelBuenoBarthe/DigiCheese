@@ -1,54 +1,38 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from app.models.stock.objet import Objet
-from app.schemas.objet import ObjetCreate, Objet as ObjetResponse
+from app.database import get_db
+from app.schemas.objet import ObjetCreate, ObjetUpdate, ObjetResponse
+from app.infrastructure.api.stock.objet_controller import (
+    get_all_objets,
+    get_objet,
+    create_objet,
+    update_objet,
+    delete_objet,
+)
 
 router = APIRouter()
 
-# READ: Obtenir la liste des objets
+# Get all Objet entries
 @router.get("/", response_model=list[ObjetResponse])
-def get_objects(db: Session, skip: int = 0, limit: int = 10):
-    objects = db.query(Objet).offset(skip).limit(limit).all()
-    return objects
+def route_get_all_objets(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    return get_all_objets(skip, limit, db)
 
-# CREATE: Ajouter un nouvel objet
+# Get an Objet entry by ID
+@router.get("/{id}", response_model=ObjetResponse)
+def route_get_objet(id: int, db: Session = Depends(get_db)):
+    return get_objet(id, db)
+
+# Create a new Objet entry
 @router.post("/", response_model=ObjetResponse)
-def create_object(object_create: ObjetCreate, db: Session):
-    db_object = Objet(**object_create.dict())
-    db.add(db_object)
-    db.commit()
-    db.refresh(db_object)
-    return db_object
+def route_create_objet(objet: ObjetCreate, db: Session = Depends(get_db)):
+    return create_objet(objet, db)
 
-# READ: Obtenir un objet par ID
-@router.get("/{object_id}", response_model=ObjetResponse)
-def get_object(object_id: int, db: Session):
-    db_object = db.query(Objet).filter(Objet.codobj == object_id).first()
-    if not db_object:
-        raise HTTPException(status_code=404, detail="Object not found")
-    return db_object
+# Update an existing Objet entry
+@router.put("/{id}", response_model=ObjetResponse)
+def route_update_objet(id: int, objet_update: ObjetUpdate, db: Session = Depends(get_db)):
+    return update_objet(id, objet_update, db)
 
-# UPDATE: Mettre à jour un objet
-@router.put("/{object_id}", response_model=ObjetResponse)
-def update_object(object_id: int, object_update: ObjetCreate, db: Session):
-    db_object = db.query(Objet).filter(Objet.codobj == object_id).first()
-    if not db_object:
-        raise HTTPException(status_code=404, detail="Object not found")
-
-    for key, value in object_update.dict(exclude_unset=True).items():
-        setattr(db_object, key, value)
-
-    db.commit()
-    db.refresh(db_object)
-    return db_object
-
-# DELETE: Supprimer un objet
-@router.delete("/{object_id}", response_model=ObjetResponse)
-def delete_object(object_id: int, db: Session):
-    db_object = db.query(Objet).filter(Objet.codobj == object_id).first()
-    if not db_object:
-        raise HTTPException(status_code=404, detail="Object not found")
-
-    db.delete(db_object)
-    db.commit()
-    return db_object
+# Delete an Objet entry
+@router.delete("/{id}", response_model=ObjetResponse)
+def route_delete_objet(id: int, db: Session = Depends(get_db)):
+    return delete_objet(id, db)
