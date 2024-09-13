@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Date, Boolean, ForeignKey, Index, Numeric, Float,MetaData
-
+from sqlalchemy.orm import relationship
 from app.database import Base
 
 class Role(Base):
