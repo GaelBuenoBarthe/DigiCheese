@@ -18,3 +18,4 @@ class Commande(Base):
 	bstock = Column(Integer, default=0)
 
 	__table_args__ = (Index('commmande_index', "cdeComt", "codcli"),)
+
