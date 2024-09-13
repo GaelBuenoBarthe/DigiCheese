@@ -13,6 +13,7 @@ def get_db():
     finally:
         db.close()
 
+#Définition des routes "post" pour les items
 @router.get("/items/{item_id}", response_model=schemas.Item)
 def read_item(item_id: int, db: Session = Depends(get_db)):
     item = crud.get_item(db, item_id)

@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from app.database import Base
 
+#Creation de la table detail
 class Detail(Base):
     __tablename__ = "t_dtlcode"
 

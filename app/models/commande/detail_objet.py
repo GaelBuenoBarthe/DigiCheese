@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, ForeignKey
 from app.database import Base
 
+#Creation de la table detail_objet
 class DetailObjet(Base):
     __tablename__ = "t_dtlcode_codobj"
 

@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, Date, ForeignKey, Index, Float
 from app.database import Base
 
+#Creation de la table commande
 class Commande(Base):
     __tablename__ = "t_entcde"
 

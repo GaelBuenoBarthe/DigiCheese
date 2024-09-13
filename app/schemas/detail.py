@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
 
+#Création d'une classe DetailBase qui hérite de BaseModel
 class DetailBase(BaseModel):
     codcde: int
     qte: Optional[int] = 1
