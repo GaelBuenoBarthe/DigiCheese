@@ -5,6 +5,7 @@ from ..database import SessionLocal
 
 router = APIRouter()
 
+#Recuperation de la base de donnée
 def get_db():
     db = SessionLocal()
     try:
