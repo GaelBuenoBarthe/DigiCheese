@@ -1,6 +1,5 @@
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
-
 from app.database import Base
 
 class Client(Base):
@@ -21,6 +20,3 @@ class Client(Base):
     email = Column(String(255))
     portable = Column(String(10))
     newsletter = Column(Boolean)
-
-    # Relation avec Commande (1-n)
-    commandes = relationship("Commande", back_populates="client")
