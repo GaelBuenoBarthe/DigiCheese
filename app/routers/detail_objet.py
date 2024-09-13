@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
-from app import crud
+from app.infrastructure.api.commande.detail_objet import DetailObjet as crud
 from app.schemas.detail_objet import DetailObjet, DetailObjetCreate
 from app.database import SessionLocal
 

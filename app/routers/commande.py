@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
-from app import crud
+from app.infrastructure.api.commande.commande import Commande as crud
 from app.schemas.commande import Commande, CommandeCreate
 from app.database import SessionLocal
 
