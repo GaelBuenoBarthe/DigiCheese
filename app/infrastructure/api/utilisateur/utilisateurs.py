@@ -4,10 +4,9 @@ from app.database import get_db
 from app.models.utilisateur import utilisateur, role_utilisateur, role
 from app.schemas.utilisateur import UtilisateurCreate, UtilisateurResponse, UtilisateurUpdate
 
-
 router = APIRouter()
 
-# Get all users
+# Definition du CRUD
 @router.get("/", response_model=list[UtilisateurResponse])
 def get_users(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     users = db.query(utilisateur).offset(skip).limit(limit).all()
@@ -45,8 +44,6 @@ def update_user(user_id: int, user_update: UtilisateurUpdate, db: Session = Depe
     db.refresh(user)
     return user
 
-
-
 # Delete a user by ID
 @router.delete("/{user_id}", response_model=UtilisateurResponse)
 def delete_user(user_id: int, db: Session = Depends(get_db)):
@@ -57,3 +54,31 @@ def delete_user(user_id: int, db: Session = Depends(get_db)):
     db.delete(user)
     db.commit()
     return user
+
+# Assign a role to a user
+def assign_role_to_user(user_id: int, role_id: int, db: Session):
+    user = db.query(utilisateur).filter(utilisateur.code_utilisateur == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    role_to_assign = db.query(role).filter(role.id == role_id).first()
+    if not role_to_assign:
+        raise HTTPException(status_code=404, detail="Role not found")
+
+    user_role = role_utilisateur(code_utilisateur=user_id, code_role=role_id)
+    db.add(user_role)
+    db.commit()
+    return user
+
+# Remove a role from a user
+def remove_role_from_user(user_id: int, role_id: int, db: Session):
+    user_role = db.query(role_utilisateur).filter(
+        role_utilisateur.code_utilisateur == user_id,
+        role_utilisateur.code_role == role_id
+    ).first()
+    if not user_role:
+        raise HTTPException(status_code=404, detail="User role not found")
+
+    db.delete(user_role)
+    db.commit()
+    return user_role

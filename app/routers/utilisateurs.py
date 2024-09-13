@@ -1,35 +1,50 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-
-from app.schemas.utilisateur import UtilisateurCreate, UtilisateurResponse, UtilisateurUpdate
-from app.infrastructure.api.utilisateur.utilisateurs import create_user, get_users, get_user, update_user, delete_user, assign_role_to_user, remove_role_from_user
+from app.database import get_db
+from app.models.utilisateur import utilisateur
+from app.schemas.utilisateur import UtilisateurCreate, UtilisateurResponse
 
 router = APIRouter()
 
 @router.get("/", response_model=list[UtilisateurResponse])
-def read_users(db: Session, skip: int = 0, limit: int = 10  ):
-    return get_users(skip, limit, db)
+def get_users(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    users = db.query(utilisateur).offset(skip).limit(limit).all()
+    return users
 
 @router.post("/", response_model=UtilisateurResponse)
-def create_new_user(user: UtilisateurCreate, db: Session):
-    return create_user(user, db)
+def create_user(user: UtilisateurCreate, db: Session = Depends(get_db)):
+    db_user = utilisateur(**user.dict())
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
 
 @router.get("/{user_id}", response_model=UtilisateurResponse)
-def read_user(user_id: int, db: Session):
-    return get_user(user_id, db)
+def get_user(user_id: int, db: Session = Depends(get_db)):
+    user = db.query(utilisateur).filter(utilisateur.code_utilisateur == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user
 
 @router.put("/{user_id}", response_model=UtilisateurResponse)
-def update_existing_user(user_id: int, user_update: UtilisateurUpdate, db: Session):
-    return update_user(user_id, user_update, db)
+def update_user(user_id: int, user_update: UtilisateurCreate, db: Session = Depends(get_db)):
+    user = db.query(utilisateur).filter(utilisateur.code_utilisateur == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
 
-@router.post("/{user_id}/assign-role", response_model=UtilisateurResponse)
-def assign_role(user_id: int, db: Session):
-    return assign_role_to_user(user_id, db)
+    for key, value in user_update.dict(exclude_unset=True).items():
+        setattr(user, key, value)
+
+    db.commit()
+    db.refresh(user)
+    return user
 
 @router.delete("/{user_id}", response_model=UtilisateurResponse)
-def delete_existing_user(user_id: int, db: Session):
-    return delete_user(user_id, db)
+def delete_user(user_id: int, db: Session = Depends(get_db)):
+    user = db.query(utilisateur).filter(utilisateur.code_utilisateur == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
 
-@router.delete("/{user_id}/remove-role/{role_id}", response_model=UtilisateurResponse)
-def remove_role(user_id: int, role_id: int, db: Session):
-    return remove_role_from_user(user_id, role_id, db)
+    db.delete(user)
+    db.commit()
+    return user
