@@ -2,6 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from . import crud, models
 from .database import SessionLocal, engine
+from routers import (roles, utilisateurs)
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -14,6 +15,9 @@ def get_db():
     finally:
         db.close()
 
+# Include routers
+app.include_router(utilisateur_router, prefix="/utilisateurs", tags=["Utilisateurs"])
+app.include_router(role_router, prefix="/roles", tags=["Roles"])
 @app.get("/")
 def read_root():
     return {"Bienvenue dans Digicheese !"}
