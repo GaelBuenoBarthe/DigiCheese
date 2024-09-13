@@ -17,5 +17,5 @@ def get_db():
 def read_item(item_id: int, db: Session = Depends(get_db)):
     item = crud.get_item(db, item_id)
     if item is None:
-        raise HTTPException(status_code=404, detail="Item not found")
+        raise HTTPException(status_code=404, detail="Item non trouvé")
     return item
