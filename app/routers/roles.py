@@ -14,7 +14,7 @@ def create_new_role(role: RoleCreate, db: Session):
     return create_role(role, db)
 
 @router.get("/{role_id}", response_model=RoleResponse)
-def read_role(role_id: int, db: Session = Depends(get_db)):
+def read_role(role_id: int, db: Session):
     return get_role(role_id, db)
 
 @router.delete("/{role_id}", response_model=RoleResponse)
