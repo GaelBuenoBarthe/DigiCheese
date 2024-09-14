@@ -1,3 +1,3 @@
-from .Commande import Commande
-from .Detail import Detail
-from .Detail_Objet import DetailObjet
+from .commande import Commande
+from .detail import Detail
+from .detail_objet import DetailObjet

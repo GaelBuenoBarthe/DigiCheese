@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
-from app.models.utilisateur import Role
-from app.schemas.Role import RoleCreate, RoleResponse
+from app.models.utilisateur import role
+from app.schemas.role import RoleCreate, RoleResponse
 
 
 # Get all roles

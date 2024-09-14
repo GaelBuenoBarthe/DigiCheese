@@ -3,9 +3,9 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from app.database import get_db
-from app.models.client.Enseigne import Enseigne
-from app.schemas.Enseigne import EnseigneCreate, EnseigneUpdate
-from app.infrastructure.api.client import Enseigne_Controller as controller
+from app.models.client.enseigne import Enseigne
+from app.schemas.enseigne import EnseigneCreate, EnseigneUpdate
+from app.infrastructure.api.client import enseigne_controller as controller
 
 router = APIRouter()
 

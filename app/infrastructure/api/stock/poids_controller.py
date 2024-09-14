@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
-from app.models.stock.Poids import Poids
-from app.schemas.Poids import PoidsCreate
+from app.models.stock.poids import Poids
+from app.schemas.poids import PoidsCreate
 
 # Get all Poids entries
 def get_all_poids(skip: int, limit: int, db: Session):

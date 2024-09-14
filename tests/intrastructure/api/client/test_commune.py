@@ -2,8 +2,8 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 from app.main import app
-from app.models.client.Commune import Commune
-from app.schemas.Commune import CommuneCreate, CommuneUpdate
+from app.models.client.commune import Commune
+from app.schemas.commune import CommuneCreate, CommuneUpdate
 from app.database import SessionLocal, engine
 
 client = TestClient(app)

@@ -3,9 +3,9 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from app.database import get_db
-from app.models.client.Departement import Departement
-from app.schemas.Departement import DepartementCreate, DepartementUpdate
-from app.infrastructure.api.client import Departement_Controller as controller
+from app.models.client.departement import Departement
+from app.schemas.departement import DepartementCreate, DepartementUpdate
+from app.infrastructure.api.client import departement_controller as controller
 
 router = APIRouter()
 

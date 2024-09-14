@@ -2,8 +2,8 @@ import pytest
 from sqlalchemy.orm import Session
 from fastapi.testclient import TestClient
 from app.main import app
-from app.models.fidelite import ProgrammeFidelite, Transaction, Bonus, Promo
-from app.schemas.ProgrammeFidelite import TransactionCreate, BonusResponse, PromoResponse
+from app.models.fidelite import programme_fidelite, transaction, bonus, promo
+from app.schemas.programme_fidelite import TransactionCreate, BonusResponse, PromoResponse
 from app.database import SessionLocal
 
 client = TestClient(app)

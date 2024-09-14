@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
 
-from app.models.utilisateur import Utilisateur, Role_Utilisateur, Role
-from app.schemas.Utilisateur import UtilisateurCreate, UtilisateurUpdate, UtilisateurResponse
+from app.models.utilisateur import utilisateur, role_utilisateur, role
+from app.schemas.utilisateur import UtilisateurCreate, UtilisateurUpdate, UtilisateurResponse
 
 
 # Get users from the database

@@ -3,7 +3,7 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 from app.main import app
 from app.models.client import Client
-from app.schemas.Client import ClientCreate, ClientUpdate
+from app.schemas.client import ClientCreate, ClientUpdate
 from app.database import SessionLocal, engine
 
 client = TestClient(app)

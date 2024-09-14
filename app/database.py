@@ -2,52 +2,50 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-# connexion a la base de donnée et déclaration de la base avec sql alchemy
 
-#Importation des modèles
-
-def importmodels() :
-    from app.models.commande.Commande import Commande
-    from app.models.commande.Detail import Detail
-    from app.models.commande.Detail_Objet import DetailObjet
-    from app.models.utilisateur.Utilisateur import Utilisateur
-    from app.models.utilisateur.Role import Role
-    from app.models.stock.Objet_Cond import ObjetCond
-    from app.models.stock.Poids import Poids
-    from app.models.stock.Vignette import Vignette
-    from app.models.stock.conditionnement import Conditionnement
-    from app.models.stock.Objet import Objet
-    from app.models.fidelite.ProgrammeFidelite import ProgrammeFidelite
-    from app.models.fidelite.Promo import Promo
-    from app.models.fidelite.Bonus import Bonus
-    from app.models.fidelite.Transaction import Transaction
-    from app.models.client.Departement import Departement
-    from app.models.client.Commune import Commune
-    from app.models.client.Client import Client
-    from app.models.client.Enseigne import Enseigne
-
-
-importmodels()
-
-# url de connexion de la base
-SQLALCHEMY_DATABASE_URL = "mysql://dev:12345@localhost/fromagerie_com"
-
-
-# permet de définir les paramètre de connexion à la base
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
-
-# déclaration d'une base qui permet après de créer un modele et de mapper avec sql alchemy
+# Base class to create models
 Base = declarative_base()
 
-# creation d'une session
-SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
+# Database connection URL
+SQLALCHEMY_DATABASE_URL =  "mysql://dev:12345@localhost/fromagerie_com"
 
-# Création des tables dans la base de données
-Base.metadata.create_all(bind=engine)
+# Create the SQLAlchemy engine
+engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
+# Create a configured session class
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+# Create all tables (Ensure this is called at some point)
+def init_db():
+    importmodels()  # Ensure models are imported
+    Base.metadata.create_all(bind=engine)
+
+# Dependency function to provide a database session
 def get_db():
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
+
+# Import models to ensure they are registered
+def importmodels():
+    from app.models.commande.commande import Commande
+    from app.models.commande.detail import Detail
+    from app.models.commande.detail_objet import DetailObjet
+    from app.models.utilisateur.utilisateur import Utilisateur
+    from app.models.utilisateur.role import Role
+    from app.models.stock.objet_cond import ObjetCond
+    from app.models.stock.poids import Poids
+    from app.models.stock.vignette import Vignette
+   # from app.models.stock.Conditionnement import Conditionnement
+    from app.models.stock.objet import Objet
+    from app.models.fidelite.programme_fidelite import ProgrammeFidelite
+    from app.models.fidelite.promo import Promo
+    from app.models.fidelite.bonus import Bonus
+    from app.models.fidelite.transaction import Transaction
+    from app.models.client.departement import Departement
+    from app.models.client.commune import Commune
+    from app.models.client.client import Client
+    from app.models.client.enseigne import Enseigne
+

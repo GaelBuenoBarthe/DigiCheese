@@ -4,8 +4,8 @@ from fastapi.testclient import TestClient
 
 from app.database import SessionLocal
 from app.main import app
-from app.models.utilisateur import Utilisateur, Role_Utilisateur, Role
-from app.schemas.Utilisateur import UtilisateurCreate, UtilisateurUpdate
+from app.models.utilisateur import utilisateur, role_utilisateur, role
+from app.schemas.utilisateur import UtilisateurCreate, UtilisateurUpdate
 
 client = TestClient(app)
 

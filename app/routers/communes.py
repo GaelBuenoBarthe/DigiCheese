@@ -3,9 +3,9 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from app.database import get_db
-from app.models.client.Commune import Commune
-from app.schemas.Commune import CommuneCreate, CommuneUpdate
-from app.infrastructure.api.client import Commune_Controller as controller
+from app.models.client.commune import Commune
+from app.schemas.commune import CommuneCreate, CommuneUpdate
+from app.infrastructure.api.client import commune_controller as controller
 
 router = APIRouter()
 

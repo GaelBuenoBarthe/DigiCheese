@@ -2,8 +2,8 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 from app.main import app
-from app.models.commande.Detail import Detail
-from app.schemas.Detail import DetailCreate
+from app.models.commande.detail import Detail
+from app.schemas.detail import DetailCreate
 from app.database import SessionLocal
 
 client = TestClient(app)

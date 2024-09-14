@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
-from app.models.fidelite import ProgrammeFidelite, Transaction, Bonus, Promo
-from app.schemas.ProgrammeFidelite import TransactionCreate, BonusResponse, PromoResponse
+from app.models.fidelite import programme_fidelite, transaction, bonus, promo
+from app.schemas.programme_fidelite import TransactionCreate, BonusResponse, PromoResponse
 
 def add_transaction(user_id: int, transaction_data: TransactionCreate, db: Session):
     user_fidelity = db.query(ProgrammeFidelite).filter(ProgrammeFidelite.user_id == user_id).first()

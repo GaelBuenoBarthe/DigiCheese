@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.database import get_db
-from app.schemas.ProgrammeFidelite import ProgrammeFideliteResponse, TransactionCreate, BonusResponse, PromoResponse
-from app.infrastructure.api.fidelite.Programmes_Fidelite_Controller import add_transaction, add_bonus, check_promo_eligibility
+from app.schemas.programme_fidelite import ProgrammeFideliteResponse, TransactionCreate, BonusResponse, PromoResponse
+from app.infrastructure.api.fidelite.programmes_fidelite_controller import add_transaction, add_bonus, check_promo_eligibility
 
 router = APIRouter()
 

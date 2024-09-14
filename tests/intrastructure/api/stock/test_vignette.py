@@ -4,8 +4,8 @@ from fastapi.testclient import TestClient
 
 from app.database import SessionLocal
 from app.main import app
-from app.models.stock.Vignette import Vignette
-from app.schemas.Vignette import VignetteCreate
+from app.models.stock.vignette import Vignette
+from app.schemas.vignette import VignetteCreate
 
 client = TestClient(app)
 

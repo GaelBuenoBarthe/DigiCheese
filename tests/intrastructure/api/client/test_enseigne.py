@@ -3,8 +3,8 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 from app.main import app
 from app.database import get_db, Base
-from app.models.client.Enseigne import Enseigne
-from app.schemas.Enseigne import EnseigneCreate, EnseigneUpdate
+from app.models.client.enseigne import Enseigne
+from app.schemas.enseigne import EnseigneCreate, EnseigneUpdate
 from app.database import SessionLocal, engine
 
 # Configure TestClient

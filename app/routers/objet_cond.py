@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.schemas.Objet_Cond import ObjetCondCreate, ObjetCondResponse
-from app.infrastructure.api.stock.Objet_Conds_Controller import (
+from app.schemas.objet_cond import ObjetCondCreate, ObjetCondResponse
+from app.infrastructure.api.stock.objet_conds_controller import (
     get_all_objet_cond,
     get_objet_cond,
     create_objet_cond,

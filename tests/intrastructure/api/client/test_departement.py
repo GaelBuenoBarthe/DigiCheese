@@ -2,8 +2,8 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 from app.main import app
-from app.models.client.Departement import Departement
-from app.schemas.Departement import DepartementCreate, DepartementUpdate
+from app.models.client.departement import Departement
+from app.schemas.departement import DepartementCreate, DepartementUpdate
 from app.database import SessionLocal, engine
 
 client = TestClient(app)
