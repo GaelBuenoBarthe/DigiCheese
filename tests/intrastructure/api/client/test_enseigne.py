@@ -35,7 +35,7 @@ def create_test_enseigne(db_session: Session):
     db_session.refresh(test_enseigne)
     return test_enseigne
 
-### Tests CRUD Enseigne
+### tests CRUD Enseigne
 
 # Teste la création d'une enseigne
 def test_create_enseigne_success(db_session: Session):
