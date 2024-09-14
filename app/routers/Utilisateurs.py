@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-
 from app.database import get_db
 from app.schemas.Utilisateur import UtilisateurCreate, UtilisateurResponse
 from app.infrastructure.api.utilisateur.Utilisateurs_Controller import get_users, create_user, get_user, update_user, delete_user

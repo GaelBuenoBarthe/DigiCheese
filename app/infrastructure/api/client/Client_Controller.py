@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 
 from app.models.client import Client
-from app.schemas.client import ClientCreate, ClientUpdate
+from app.schemas.Client import ClientCreate, ClientUpdate
 
 def get_all_clients(skip: int, limit: int, db: Session):
     """

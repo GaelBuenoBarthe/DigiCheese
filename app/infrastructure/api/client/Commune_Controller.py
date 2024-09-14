@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 
-from app.models.client.commune import Commune
-from app.schemas.commune import CommuneCreate, CommuneUpdate
+from app.models.client.Commune import Commune
+from app.schemas.Commune import CommuneCreate, CommuneUpdate
 
 def get_all_communes(skip: int, limit: int, db: Session):
     """
