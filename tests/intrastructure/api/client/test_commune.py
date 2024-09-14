@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.main import app
 from app.models.client.commune import Commune
 from app.schemas.commune import CommuneCreate, CommuneUpdate
-from app.database import SessionLocal, engine
+from app.database import SessionLocal
 
 client = TestClient(app)
 
@@ -18,7 +18,11 @@ def db_session():
 
 @pytest.fixture
 def create_test_commune(db_session: Session):
-    test_commune = Commune(name="Test Commune")
+    test_commune = Commune(
+        code_postal="12345",
+        nom="Test Commune",
+        departement_id=1
+    )
     db_session.add(test_commune)
     db_session.commit()
     db_session.refresh(test_commune)
@@ -26,15 +30,19 @@ def create_test_commune(db_session: Session):
 
 def test_create_commune_success(db_session: Session):
     new_commune = {
-        "name": "New Commune"
+        "code_postal": "67890",
+        "nom": "New Commune",
+        "departement_id": 1
     }
     response = client.post("/communes/", json=new_commune)
     assert response.status_code == 201
-    assert response.json()["name"] == "New Commune"
+    assert response.json()["nom"] == "New Commune"
 
 def test_create_commune_failure(db_session: Session):
     invalid_commune = {
-        "name": ""  # Invalid name
+        "code_postal": "67890",
+        "nom": "",  # Invalid name
+        "departement_id": 1
     }
     response = client.post("/communes/", json=invalid_commune)
     assert response.status_code == 422
@@ -53,16 +61,16 @@ def test_get_commune_failure(db_session: Session):
 def test_update_commune_success(create_test_commune, db_session: Session):
     commune_id = create_test_commune.id
     updated_data = {
-        "name": "Updated Commune"
+        "nom": "Updated Commune"
     }
     response = client.put(f"/communes/{commune_id}", json=updated_data)
     assert response.status_code == 200
-    assert response.json()["name"] == "Updated Commune"
+    assert response.json()["nom"] == "Updated Commune"
 
 def test_update_commune_failure(db_session: Session):
     invalid_commune_id = 9999
     updated_data = {
-        "name": "Non-existent Commune"
+        "nom": "Non-existent Commune"
     }
     response = client.put(f"/communes/{invalid_commune_id}", json=updated_data)
     assert response.status_code == 404
