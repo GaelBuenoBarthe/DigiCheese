@@ -3,8 +3,8 @@ from app.routers import commande, detail, detail_objet, utilisateurs, roles, vig
 
 app = FastAPI()
 
-app.include_router(commande.router, prefix="/api", tags=["commandes"])
-app.include_router(detail.router, prefix="/api", tags=["details"])
+app.include_router(commande.router, prefix="/commande", tags=["commandes"])
+app.include_router(detail.router, prefix="/detail", tags=["details"])
 
 app.include_router(detail_objet.router, prefix="/detail_objets", tags=["DetailObjets"])
 
