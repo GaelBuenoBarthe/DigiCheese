@@ -19,6 +19,10 @@ from app.models.fidelite.ProgrammeFidelite import ProgrammeFidelite
 from app.models.fidelite.Promo import Promo
 from app.models.fidelite.Bonus import Bonus
 from app.models.fidelite.Transaction import Transaction
+from app.models.client.Departement import Departement
+from app.models.client.Commune import Commune
+from app.models.client.Client import Client
+from app.models.client.Enseigne import Enseigne
 
 # url de connexion de la base
 SQLALCHEMY_DATABASE_URL = "mysql://dev:12345@localhost/fromagerie_com"
