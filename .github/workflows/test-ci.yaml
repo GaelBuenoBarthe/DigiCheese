@@ -3,7 +3,7 @@ name: Build and Test on Test
 on:
   push:
     branches:
-      - Test
+      - test
 
 jobs:
   build-and-test:
@@ -16,26 +16,24 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.12'  # Use your preferred Python version
+        python-version: '3.x'
 
     - name: Install dependencies
       run: |
         pip install -r requirements.txt
+        pip install pytest  # Ensure pytest is installed
 
     - name: Build application
       run: |
-        # Add your build commands here
         echo "Building the application..."
 
     - name: Run tests
       run: |
-        # Run your tests here
-        python -m unittest discover -s tests
+        pytest --maxfail=1 --disable-warnings -q
 
     - name: Upload test results
       uses: actions/upload-artifact@v3
       with:
         name: test-results
         path: |
-          # Specify the test result paths here
           tests/reports/
