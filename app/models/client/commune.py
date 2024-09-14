@@ -1,13 +1,21 @@
-from sqlalchemy import Column, Integer, String, Date, Boolean, ForeignKey, Index, Numeric, Float,MetaData
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 
 from app.database import Base
 
 class Commune(Base):
-	__tablename__ = "t_communes"
+    """
+    Modèle SQLAlchemy représentant une commune dans la base de données.
+    """
+    __tablename__ = "communes"
 
-	id = Column(Integer,primary_key=True)
-	dep = Column(Integer,ForeignKey('t_dept.code_dept'))
-	cp = Column(String(5), default=None)
-	ville = Column(String(50), default=None)
+    id = Column(Integer, primary_key=True, index=True)  # Clé primaire, auto-incrémentée
+    code_postal = Column(String)  # Code postal de la commune
+    nom = Column(String)  # Nom de la commune
 
-	__table_args__ = (Index('commune_index', "dep", "cp", "ville"),)
+    # Relation avec Departement (n-1)
+    departement_id = Column(Integer, ForeignKey("departement.id"))  # Clé étrangère vers le département
+    departement = relationship("Departement", back_populates="communes")
+
+    # Relation avec Client (1-n) - Même si pas explicitement dans le schéma, souvent utile
+    clients = relationship("Client", back_populates="ville")
