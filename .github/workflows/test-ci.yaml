@@ -1,4 +1,4 @@
-name: Build and Test on Test
+name: Build and Test
 
 on:
   push:
@@ -21,13 +21,11 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -r requirements.txt
-        pip install pytest  # Ensure pytest is installed
-
-    - name: Build application
-      run: |
-        echo "Building the application..."
+        pip show pytest  # Check if pytest is installed
 
     - name: Run tests
+      env:
+        PYTHONPATH: .
       run: |
         pytest --maxfail=1 --disable-warnings -q
 

@@ -3,3 +3,4 @@ uvicorn
 sqlalchemy
 mysqlclient
 pydantic
+pytest
