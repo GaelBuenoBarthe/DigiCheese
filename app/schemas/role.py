@@ -1,13 +1,13 @@
 from pydantic import BaseModel
 
 class RoleBase(BaseModel):
-    librole: str
+    name: str
 
 class RoleCreate(RoleBase):
     pass
 
 class RoleResponse(RoleBase):
-    codrole: int
+    id: int
 
     class Config:
         orm_mode = True
