@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
-from app.models.stock.objet_cond import ObjetCond
+from app.models.stock.Objet_Cond import ObjetCond
 from app.schemas.objet_cond import ObjetCondCreate
 
 # Get all ObjetCond entries

@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.models.commande.detail import Detail
+from app.models.commande.Detail import Detail
 from app.schemas.detail import DetailCreate
 
 def create_detail(db: Session, detail: DetailCreate):

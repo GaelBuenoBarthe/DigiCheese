@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
-from app.models.stock.vignette import Vignette
+from app.models.stock.Vignette import Vignette
 from app.schemas.vignette import VignetteCreate
 
 # Get all Vignette entries

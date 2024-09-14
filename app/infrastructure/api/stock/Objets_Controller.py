@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
-from app.models.stock.objet import Objet
+from app.models.stock.Objet import Objet
 from app.schemas.objet import ObjetCreate, ObjetUpdate
 
 # Get all Objet entries

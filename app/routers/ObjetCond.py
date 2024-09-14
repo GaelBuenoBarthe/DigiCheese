@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.schemas.objet_cond import ObjetCondCreate, ObjetCondResponse
-from app.infrastructure.api.stock.objet_condcontroller import (
+from app.infrastructure.api.stock.Objet_Cond_Controller import (
     get_all_objet_cond,
     get_objet_cond,
     create_objet_cond,
