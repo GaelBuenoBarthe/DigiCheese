@@ -5,16 +5,20 @@ from sqlalchemy.ext.declarative import declarative_base
 # connexion a la base de donnée et déclaration de la base avec sql alchemy
 
 #Importation des modèles
-from app.models.commande.commande import Commande
-from app.models.commande.detail import Detail
-from app.models.commande.detail_objet import DetailObjet
-from app.models.utilisateur.utilisateur import Utilisateur
-from app.models.utilisateur.role import Role
-from app.models.stock.objet_cond import ObjetCond
-from app.models.stock.poids import Poids
-from app.models.stock.vignette import Vignette
+from app.models.commande.Commande import Commande
+from app.models.commande.Detail import Detail
+from app.models.commande.Detail_Objet import DetailObjet
+from app.models.utilisateur.Utilisateur import Utilisateur
+from app.models.utilisateur.Role import Role
+from app.models.stock.Objet_Cond import ObjetCond
+from app.models.stock.Poids import Poids
+from app.models.stock.Vignette import Vignette
 from app.models.stock.conditionnement import Conditionnement
-from app.models.stock.objet import Objet
+from app.models.stock.Objet import Objet
+from app.models.fidelite.ProgrammeFidelite import ProgrammeFidelite
+from app.models.fidelite.Promo import Promo
+from app.models.fidelite.Bonus import Bonus
+from app.models.fidelite.Transaction import Transaction
 
 # url de connexion de la base
 SQLALCHEMY_DATABASE_URL = "mysql://dev:12345@localhost/fromagerie_com"
