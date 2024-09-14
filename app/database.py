@@ -31,3 +31,10 @@ SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
 
 # Création des tables dans la base de données
 Base.metadata.create_all(bind=engine)
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()

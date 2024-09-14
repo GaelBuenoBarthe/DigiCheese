@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from app.database import get_db
+from app.database import SessionLocal, get_db
 from app.schemas.detail_objet import DetailObjetCreate, DetailObjetResponse
 from app.infrastructure.api.commande.detail_objet_controller import (
     get_all_detail_objets,
@@ -9,6 +9,8 @@ from app.infrastructure.api.commande.detail_objet_controller import (
     update_detail_objet,
     delete_detail_objet,
 )
+
+
 
 router = APIRouter()
 

@@ -3,16 +3,11 @@ from sqlalchemy.orm import Session
 from typing import List
 from app import crud
 from app.schemas.detail import Detail, DetailCreate
-from app.database import SessionLocal
+from app.database import SessionLocal, get_db
 
 router = APIRouter()
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+
 
 @router.post("/details/", response_model=Detail)
 def create_detail(detail: DetailCreate, db: Session = Depends(get_db)):
