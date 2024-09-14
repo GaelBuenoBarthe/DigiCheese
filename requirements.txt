@@ -5,3 +5,4 @@ mysqlclient
 pydantic
 pytest
 httpx
+email-validator
