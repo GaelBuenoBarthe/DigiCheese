@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
-from app.infrastructure.api.commande.commande_controller import  create_commande,delete_commande,update_commande,get_commande,get_commandes
-from app.schemas.commande import Commande, CommandeCreate
+from app.infrastructure.api.commande.Commandes_Controller import  create_commande,delete_commande,update_commande,get_commande,get_commandes
+from app.schemas.Commande import Commande, CommandeCreate
 from app.database import SessionLocal, get_db
 
 router = APIRouter()
