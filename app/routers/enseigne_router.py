@@ -6,7 +6,8 @@ from app.database import get_db
 
 from app.schemas.enseigne import EnseigneCreate, EnseigneUpdate, EnseigneResponse
 from app.infrastructure.api.client.enseigne_controller import (
-    get_enseigne, get_all_enseignes, delete_enseigne, create_enseigne, update_enseigne
+    get_enseigne as getfromcontroller, get_all_enseignes as getallfromcontorller, delete_enseigne as deletefromcontroller,
+    create_enseigne as createfromcontroller, update_enseigne as updatefromcontroller
 )
 
 router = APIRouter()
@@ -25,7 +26,7 @@ def read_enseignes(skip: int = 0, limit: int = 100, db: Session = Depends(get_db
     Returns:
         Une liste d'enseignes.
     """
-    enseignes = get_all_enseignes(skip, limit, db)
+    enseignes = getallfromcontorller(skip, limit, db)
     return enseignes
 
 
@@ -41,7 +42,7 @@ def create_enseigne(enseigne: EnseigneCreate, db: Session = Depends(get_db)) -> 
     Returns:
         L'enseigne créée.
     """
-    return create_enseigne(enseigne, db)
+    return createfromcontroller(enseigne, db)
 
 
 @router.get("/{enseigne_id}", response_model=EnseigneResponse)
@@ -56,7 +57,7 @@ def read_enseigne(enseigne_id: int, db: Session = Depends(get_db)) -> EnseigneRe
     Returns:
         L'enseigne correspondant à l'ID fourni.
     """
-    return get_enseigne(enseigne_id, db)
+    return getfromcontroller(enseigne_id, db)
 
 
 @router.put("/{enseigne_id}", response_model=EnseigneResponse)
@@ -72,7 +73,7 @@ def update_enseigne(enseigne_id: int, enseigne: EnseigneUpdate, db: Session = De
     Returns:
         L'enseigne mise à jour.
     """
-    return update_enseigne(enseigne_id, enseigne, db)
+    return updatefromcontroller (enseigne_id, enseigne, db)
 
 
 @router.delete("/{enseigne_id}", response_model=EnseigneResponse)
@@ -87,4 +88,4 @@ def delete_enseigne(enseigne_id: int, db: Session = Depends(get_db)) -> Enseigne
     Returns:
         L'enseigne supprimée.
     """
-    return delete_enseigne(enseigne_id, db)
+    return deletefromcontroller(enseigne_id, db)

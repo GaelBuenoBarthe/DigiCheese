@@ -1,88 +1,130 @@
+from http.client import HTTPException
+
 import pytest
-from sqlalchemy.orm import Session
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 from fastapi.testclient import TestClient
 from app.main import app
 from app.models.fidelite import programme_fidelite, transaction, bonus, promo
 from app.schemas.programme_fidelite import TransactionCreate, BonusResponse, PromoResponse
-from app.database import SessionLocal
+from app import crud
+from app.database import  Base
 
-client = TestClient(app)
+# Setup in-memory SQLite database
+DATABASE_URL = "sqlite:///:memory:"
+engine = create_engine(DATABASE_URL, echo=True)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
 
 @pytest.fixture(scope="module")
-def db_session():
+def setup_database():
+    Base.metadata.create_all(bind=engine)
     db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+    yield db
+    Base.metadata.drop_all(bind=engine)
+
 
 @pytest.fixture
-def setup_fidelity_program(db_session: Session):
-    user_fidelity = ProgrammeFidelite(user_id=1, points=100)
-    db_session.add(user_fidelity)
-    db_session.commit()
-    db_session.refresh(user_fidelity)
-    return user_fidelity
+def test_client():
+    return TestClient(app)
 
-@pytest.fixture
-def setup_promo(db_session: Session):
-    promo = Promo(id=1, points_required=50)
-    db_session.add(promo)
-    db_session.commit()
-    db_session.refresh(promo)
-    return promo
 
-@pytest.fixture
-def setup_transaction(db_session: Session):
-    transaction = Transaction(user_id=1, amount_spent=100, points_earned=10)
-    db_session.add(transaction)
-    db_session.commit()
-    db_session.refresh(transaction)
-    return transaction
+def test_add_transaction(setup_database):
+    db = setup_database
+    user_id = 1
+    db.add(programme_fidelite(user_id=user_id, points=0))
+    db.commit()
 
-@pytest.fixture
-def setup_bonus(db_session: Session):
-    bonus = Bonus(user_id=1, bonus_type="Holiday", points=20)
-    db_session.add(bonus)
-    db_session.commit()
-    db_session.refresh(bonus)
-    return bonus
+    transaction_data = TransactionCreate(amount_spent=100)
+    result = crud.add_transaction(user_id, transaction_data, db)
 
-def test_add_transaction_success(db_session: Session, setup_fidelity_program: ProgrammeFidelite):
-    transaction_data = {"amount_spent": 200}
-    response = client.post("/transactions/", json={"user_id": 1, **transaction_data})
-    assert response.status_code == 200
-    assert response.json()["points"] == 120  # Assuming initial points were 100 and 20 points are earned
+    assert result.points == 10
+    assert db.query(transaction).count() == 1
 
-def test_add_transaction_failure(db_session: Session):
-    transaction_data = {"amount_spent": 200}
-    response = client.post("/transactions/", json={"user_id": 999, **transaction_data})
-    assert response.status_code == 404
 
-def test_add_bonus_success(db_session: Session, setup_fidelity_program: ProgrammeFidelite):
-    bonus_data = {"bonus_type": "Special", "points": 30}
-    response = client.post("/bonuses/", json={"user_id": 1, **bonus_data})
-    assert response.status_code == 200
-    assert response.json()["points"] == 30
+def test_add_transaction_fidelity_not_found(setup_database):
+    db = setup_database
+    user_id = 1
+    transaction_data = TransactionCreate(amount_spent=100)
 
-def test_add_bonus_failure(db_session: Session):
-    bonus_data = {"bonus_type": "Special", "points": 30}
-    response = client.post("/bonuses/", json={"user_id": 999, **bonus_data})
-    assert response.status_code == 404
+    with pytest.raises(HTTPException) as excinfo:
+        crud.add_transaction(user_id, transaction_data, db)
 
-def test_check_promo_eligibility_success(db_session: Session, setup_fidelity_program: ProgrammeFidelite, setup_promo: Promo):
-    response = client.get("/promos/1/eligibility", params={"user_id": 1})
-    assert response.status_code == 200
-    assert response.json()["eligible"] == True
+    assert excinfo.value.status_code == 404
 
-def test_check_promo_eligibility_failure(db_session: Session, setup_fidelity_program: ProgrammeFidelite, setup_promo: Promo):
-    response = client.get("/promos/1/eligibility", params={"user_id": 999})
-    assert response.status_code == 404
 
-def test_check_promo_eligibility_not_enough_points(db_session: Session, setup_fidelity_program: ProgrammeFidelite, setup_promo: Promo):
-    db_session.query(ProgrammeFidelite).filter(ProgrammeFidelite.user_id == 1).update({ProgrammeFidelite.points: 30})
-    db_session.commit()
-    response = client.get("/promos/1/eligibility", params={"user_id": 1})
-    assert response.status_code == 200
-    assert response.json()["eligible"] == False
-    assert response.json()["message"] == "Not enough points"
+def test_calculate_points():
+    assert crud.calculate_points(100) == 10
+    assert crud.calculate_points(0) == 0
+    assert crud.calculate_points(50) == 5
+
+
+def test_add_bonus(setup_database):
+    db = setup_database
+    user_id = 1
+    db.add(programme_fidelite(user_id=user_id, points=0))
+    db.commit()
+
+    result = crud.add_bonus(user_id, "extra_points", 50, db)
+
+    assert result.bonus_type == "extra_points"
+    assert result.points == 50
+    assert db.query(programme_fidelite).filter(programme_fidelite.user_id == user_id).first().points == 50
+
+
+def test_add_bonus_fidelity_not_found(setup_database):
+    db = setup_database
+    user_id = 1
+
+    with pytest.raises(HTTPException) as excinfo:
+        crud.add_bonus(user_id, "extra_points", 50, db)
+
+    assert excinfo.value.status_code == 404
+
+
+def test_check_promo_eligibility(setup_database):
+    db = setup_database
+    user_id = 1
+    db.add(programme_fidelite(user_id=user_id, points=100))
+    db.add(promo(id=1, points_required=50))
+    db.commit()
+
+    result = crud.check_promo_eligibility(user_id, 1, db)
+
+    assert result["eligible"] is True
+
+
+def test_check_promo_eligibility_not_enough_points(setup_database):
+    db = setup_database
+    user_id = 1
+    db.add(programme_fidelite(user_id=user_id, points=20))
+    db.add(promo(id=1, points_required=50))
+    db.commit()
+
+    result = crud.check_promo_eligibility(user_id, 1, db)
+
+    assert result["eligible"] is False
+    assert result["message"] == "Not enough points"
+
+
+def test_check_promo_eligibility_promo_not_found(setup_database):
+    db = setup_database
+    user_id = 1
+    db.add(programme_fidelite(user_id=user_id, points=100))
+    db.commit()
+
+    with pytest.raises(HTTPException) as excinfo:
+        crud.check_promo_eligibility(user_id, 1, db)
+
+    assert excinfo.value.status_code == 404
+
+
+def test_check_promo_eligibility_user_not_found(setup_database):
+    db = setup_database
+    db.add(promo(id=1, points_required=50))
+    db.commit()
+
+    with pytest.raises(HTTPException) as excinfo:
+        crud.check_promo_eligibility(1, 1, db)
+
+    assert excinfo.value.status_code == 404

@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, Numeric
 from sqlalchemy.orm import relationship
 from app.database import Base
 class Promo(Base):
-    __tablename__ = "t_promo"
+    __tablename__ = "promo"
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(50))

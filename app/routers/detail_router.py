@@ -3,11 +3,9 @@ from sqlalchemy.orm import Session
 from typing import List
 from app import crud
 from app.schemas.detail import Detail, DetailCreate
-from app.database import SessionLocal, get_db
+from app.database import get_db
 
 router = APIRouter()
-
-
 
 @router.post("/details/", response_model=Detail)
 def create_detail(detail: DetailCreate, db: Session = Depends(get_db)):
@@ -26,8 +24,14 @@ def read_details(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
 
 @router.put("/details/{id}", response_model=Detail)
 def update_detail(id: int, detail: DetailCreate, db: Session = Depends(get_db)):
-    return crud.update_detail(db=db, id=id, detail=detail)
+    db_detail = crud.update_detail(db=db, id=id, detail=detail)
+    if db_detail is None:
+        raise HTTPException(status_code=404, detail="Detail non trouvé")
+    return db_detail
 
 @router.delete("/details/{id}", response_model=Detail)
 def delete_detail(id: int, db: Session = Depends(get_db)):
-    return crud.delete_detail(db=db, id=id)
+    db_detail = crud.delete_detail(db=db, id=id)
+    if db_detail is None:
+        raise HTTPException(status_code=404, detail="Detail non trouvé")
+    return db_detail

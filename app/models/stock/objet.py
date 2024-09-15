@@ -4,7 +4,7 @@ from app.database import Base
 
 
 class Objet(Base):
-    __tablename__ = "t_objet"
+    __tablename__ = "objet"
 
     # Identifiant unique de l'objet
     codobj = Column(Integer, primary_key=True, index=True)

@@ -18,11 +18,10 @@ def db_session():
 
 @pytest.fixture
 def create_test_commune(db_session: Session):
-    test_commune = Commune(
-        code_postal="12345",
-        nom="Test Commune",
-        departement_id=1
-    )
+    test_commune = Commune()
+    test_commune.code_postal = "12345"
+    test_commune.nom ="Test Commune"
+    test_commune.departement = 1
     db_session.add(test_commune)
     db_session.commit()
     db_session.refresh(test_commune)

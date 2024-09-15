@@ -1,61 +1,100 @@
+from http.client import HTTPException
+
 import pytest
-from sqlalchemy.orm import Session
-from fastapi.testclient import TestClient
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, base
+from app.models.utilisateur import  role
+from app.schemas.role import RoleCreate, RoleResponse
+from app import crud
 
-from app.database import SessionLocal
-from app.main import app
-from app.models.utilisateur import role
-from app.schemas.role import RoleCreate
+# Setup in-memory SQLite database
+DATABASE_URL = "sqlite:///:memory:"
+engine = create_engine(DATABASE_URL, echo=True)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-client = TestClient(app)
 
 @pytest.fixture(scope="module")
-def db_session():
+def setup_database():
+    base.metadata.create_all(bind=engine)
     db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+    yield db
+    base.metadata.drop_all(bind=engine)
+
 
 @pytest.fixture
-def setup_role(db_session: Session):
-    role = Role(id=1, role_name="Admin")
-    db_session.add(role)
-    db_session.commit()
-    db_session.refresh(role)
-    return role
+def test_client():
+    from fastapi.testclient import TestClient
+    from app.main import app
+    return TestClient(app)
 
-def test_get_roles(db_session: Session):
-    response = client.get("/roles/")
-    assert response.status_code == 200
-    assert isinstance(response.json(), list)
 
-def test_create_role_success(db_session: Session):
-    role_data = {"role_name": "User"}
-    response = client.post("/roles/", json=role_data)
-    assert response.status_code == 200
-    assert response.json()["role_name"] == "User"
+def test_get_roles(setup_database):
+    db = setup_database
+    db.add(role(name="Admin"))
+    db.add(role(name="User"))
+    db.commit()
 
-def test_create_role_failure(db_session: Session):
-    # Example of failure: sending incomplete data
-    role_data = {}  # Required fields missing
-    response = client.post("/roles/", json=role_data)
-    assert response.status_code == 422  # Unprocessable Entity
+    roles = crud.get_roles(db)
 
-def test_get_role_success(db_session: Session, setup_role: Role):
-    response = client.get(f"/roles/{setup_role.id}")
-    assert response.status_code == 200
-    assert response.json()["role_name"] == "Admin"
+    assert len(roles) == 2
+    assert roles[0].name == "Admin"
+    assert roles[1].name == "User"
 
-def test_get_role_failure(db_session: Session):
-    response = client.get("/roles/999")  # Non-existent role ID
-    assert response.status_code == 404
 
-def test_delete_role_success(db_session: Session, setup_role: Role):
-    response = client.delete(f"/roles/{setup_role.id}")
-    assert response.status_code == 200
-    assert response.json()["id"] == setup_role.id
+def test_create_role(setup_database):
+    db = setup_database
+    role_data = RoleCreate(name="Manager")
 
-def test_delete_role_failure(db_session: Session):
-    response = client.delete("/roles/999")  # Non-existent role ID
-    assert response.status_code == 404
+    created_role = crud.create_role(db, role_data)
+
+    assert created_role.name == "Manager"
+    assert db.query(role).count() == 1
+
+
+def test_create_role_invalid_data(setup_database):
+    db = setup_database
+    role_data = RoleCreate(name="")  # Assume empty name is invalid
+
+    with pytest.raises(ValueError):
+        crud.create_role(db, role_data)
+
+
+def test_get_role(setup_database):
+    db = setup_database
+    db.add(role(name="Admin"))
+    db.commit()
+
+    created_role = db.query(role).first()
+    fetched_role = crud.get_role(db, created_role.id)
+
+    assert fetched_role.name == "Admin"
+
+
+def test_get_role_not_found(setup_database):
+    db = setup_database
+
+    with pytest.raises(HTTPException) as excinfo:
+        crud.get_role(db, 999)  # Non-existent role ID
+
+    assert excinfo.value.status_code == 404
+
+
+def test_delete_role(setup_database):
+    db = setup_database
+    db.add(role(name="Admin"))
+    db.commit()
+
+    created_role = db.query(role).first()
+    deleted_role = crud.delete_role(db, created_role.id)
+
+    assert deleted_role.name == "Admin"
+    assert db.query(role).count() == 0
+
+
+def test_delete_role_not_found(setup_database):
+    db = setup_database
+
+    with pytest.raises(HTTPException) as excinfo:
+        crud.delete_role(db, 999)  # Non-existent role ID
+
+    assert excinfo.value.status_code == 404

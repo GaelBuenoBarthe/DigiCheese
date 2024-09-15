@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer, String, Date, Boolean, ForeignKey, Index
 from app.database import Base
 
 class Utilisateur(Base):
-	__tablename__ = "t_utilisateur"
+	__tablename__ = "utilisateur"
 
 	code_utilisateur = Column(Integer,primary_key=True)
 	nom_utilisateur = Column(String(50), default=None)

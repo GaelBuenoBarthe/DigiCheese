@@ -7,11 +7,11 @@ class Commune(Base):
     """
     Modèle SQLAlchemy représentant une commune dans la base de données.
     """
-    __tablename__ = "communes"
+    __tablename__ = "commune"
 
     id = Column(Integer, primary_key=True, index=True)  # Clé primaire, auto-incrémentée
-    code_postal = Column(String)  # Code postal de la commune
-    nom = Column(String)  # Nom de la commune
+    code_postal = Column(String(50))  # Code postal de la commune
+    nom = Column(String(50))  # Nom de la commune
 
     # Relation avec Departement (n-1)
     departement_id = Column(Integer, ForeignKey("departement.id"))  # Clé étrangère vers le département
