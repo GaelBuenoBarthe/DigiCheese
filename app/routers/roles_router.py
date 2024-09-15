@@ -8,8 +8,8 @@ from app.infrastructure.api.utilisateur.roles_controller import get_roles, creat
 router = APIRouter()
 
 @router.get("/", response_model=list[RoleResponse])
-def read_roles( db: Session, skip: int = 0, limit: int = 10):
-    return get_roles(skip, limit, db =  Depends (get_db))
+def read_roles( db: Session = Depends (get_db), skip: int = 0, limit: int = 10):
+    return get_roles(skip, limit,db)
 
 @router.post("/", response_model=RoleResponse)
 def create_new_role(role: RoleCreate, db: Session =  Depends (get_db)):
