@@ -1,20 +1,25 @@
 import pytest
 from fastapi.testclient import TestClient
-from sqlalchemy.orm import Session
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session, sessionmaker
 from app.main import app
 from app.models.client.commune import Commune
 from app.schemas.commune import CommuneCreate, CommuneUpdate
-from app.database import SessionLocal
+from app.database import SessionLocal, Base
 
 client = TestClient(app)
-
+SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"  # Use an in-memory database for testing
+engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
+TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 @pytest.fixture(scope="module")
 def db_session():
-    db = SessionLocal()
+    Base.metadata.create_all(bind=engine)
+    db = TestingSessionLocal()
     try:
         yield db
     finally:
         db.close()
+        Base.metadata.drop_all(bind=engine)
 
 @pytest.fixture
 def create_test_commune(db_session: Session):

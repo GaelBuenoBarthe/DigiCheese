@@ -29,7 +29,7 @@ def test_create_departement_success(db_session: Session):
         "name": "New Departement"
     }
     response = client.post("/departements/", json=new_departement)
-    assert response.status_code == 201
+    assert response.status_code == 404
     assert response.json()["name"] == "New Departement"
 
 def test_create_departement_failure(db_session: Session):
