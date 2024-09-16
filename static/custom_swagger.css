@@ -1,0 +1,15 @@
+body {
+    background-image: url('/static/background.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+a.custom-link {
+    font-family: 'BigCheese', sans-serif;
+    font-size: 1.5em;
+    color: black;
+    text-shadow: 1px 1px 0 goldenrod, -1px -1px 0 orange, 1px -1px 0 yellow, -1px 1px 0 darkorange, 2px 2px 3px yellow;
+    text-decoration: none;
+    margin: 20px;
+    display: inline-block;
+}
