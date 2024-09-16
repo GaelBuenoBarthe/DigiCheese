@@ -1,8 +1,6 @@
-fastapi
-uvicorn
-sqlalchemy
-mysqlclient
-pydantic
-pytest
-httpx
-email-validator
+SQLAlchemy~=2.0.34
+fastapi~=0.114.1
+starlette~=0.38.5
+pydantic~=2.9.1
+pytest~=8.3.3
+httpx~=0.27.2
