@@ -1,5 +1,7 @@
 from typing import Optional
-from pydantic import BaseModel
+
+from pydantic import BaseModel, EmailStr
+
 
 class UtilisateurBase(BaseModel):
     name: str
@@ -11,9 +13,14 @@ class UtilisateurCreate(UtilisateurBase):
 class UtilisateurResponse(UtilisateurBase):
     id: int
 
+    class Config:
+        orm_mode = True
+
+# Adding UtilisateurUpdate for partial updates
 class UtilisateurUpdate(BaseModel):
-    nom: Optional[str] = None
-    email: Optional[str] = None
+    name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    password: Optional[str] = None
 
     class Config:
         orm_mode = True

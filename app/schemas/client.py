@@ -1,18 +1,18 @@
-from pydantic import BaseModel
-from typing import List, Optional
+from pydantic import BaseModel, EmailStr
+from typing import Optional
 
 class ClientBase(BaseModel):
-    genre: Optional[str]
+    genre: Optional[str] = None
     nom: str
-    prenom: str
-    adresse1: str
-    adresse2: Optional[str]
-    adresse3: Optional[str]
-    ville_id: int
-    telephone: Optional[str]
-    email: Optional[str]
-    portable: Optional[str]
-    newsletter: Optional[bool]
+    prenom: Optional[str] = None
+    adresse1: Optional[str] = None
+    adresse2: Optional[str] = None
+    adresse3: Optional[str] = None
+    ville_id: Optional[int] = None
+    telephone: Optional[str] = None
+    email: Optional[EmailStr] = None
+    portable: Optional[str] = None
+    newsletter: Optional[bool] = None
 
 class ClientCreate(ClientBase):
     pass
@@ -20,9 +20,19 @@ class ClientCreate(ClientBase):
 class ClientUpdate(ClientBase):
     pass
 
-class Client(ClientBase):
+class ClientResponse(BaseModel):
     id: int
-    commandes: List['Commande'] = []
+    genre: Optional[str] = None
+    nom: str
+    prenom: Optional[str] = None
+    adresse1: Optional[str] = None
+    adresse2: Optional[str] = None
+    adresse3: Optional[str] = None
+    ville_id: Optional[int] = None
+    telephone: Optional[str] = None
+    email: Optional[EmailStr] = None
+    portable: Optional[str] = None
+    newsletter: Optional[bool] = None
 
     class Config:
         orm_mode = True
