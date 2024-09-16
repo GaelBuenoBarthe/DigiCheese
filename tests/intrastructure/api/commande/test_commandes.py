@@ -3,7 +3,6 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 from app.main import app
 from app.models.commande import Commande
-from app.schemas.commande import CommandeCreate
 from app.database import SessionLocal
 
 client = TestClient(app)

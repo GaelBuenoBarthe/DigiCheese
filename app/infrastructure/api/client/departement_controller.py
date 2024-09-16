@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
-from fastapi import HTTPException, status
+from fastapi import HTTPException
 
 from app.models.client.departement import Departement
-from app.schemas.departement import DepartementCreate, DepartementUpdate
+from app.schemas.client.departement import DepartementCreate, DepartementUpdate
 
 def get_all_departements(skip: int, limit: int, db: Session):
     """

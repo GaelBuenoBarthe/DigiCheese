@@ -1,7 +1,7 @@
 # app/routers/conditionnement_router.py
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from app.schemas.conditionnements import ConditionnementCreate, ConditionnementResponse
+from app.schemas.stocks.conditionnements import ConditionnementCreate, ConditionnementResponse
 from app.infrastructure.api.stock.conditionnements_controller import (
     get_conditionnements as get_conditionnements_ctrl,
     create_conditionnement as create_conditionnement_ctrl,

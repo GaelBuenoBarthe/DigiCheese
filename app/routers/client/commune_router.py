@@ -1,9 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from typing import List
 
 from app.database import get_db
-from app.schemas.commune import CommuneCreate, CommuneUpdate, CommuneResponse
+from app.schemas.client.commune import CommuneCreate, CommuneUpdate, CommuneResponse
 from app.infrastructure.api.client.commune_controller import (
     get_commune as get_commune_controller,
     get_all_communes as get_all_communes_controller,

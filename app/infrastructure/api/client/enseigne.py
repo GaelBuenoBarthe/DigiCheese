@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from app.models.client import enseigne as EnseigneModel
-from app.schemas import enseigne as schemas
+from app.schemas.client import enseigne as schemas
+
 
 def get_enseigne(db: Session, enseigne_id: int):
     return db.query(EnseigneModel).filter(EnseigneModel.id == enseigne_id).first()

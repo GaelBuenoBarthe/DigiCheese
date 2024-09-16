@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
 from app.models.commande.detail_objet import DetailObjet
-from app.schemas.detail_objet import DetailObjetCreate
+from app.schemas.commandes.detail_objet import DetailObjetCreate
 
 # Get all DetailObjet entries
 def get_all_detail_objets(skip: int, limit: int, db: Session):

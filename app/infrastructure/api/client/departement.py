@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from app.models.client import departement
-from app.schemas import departement as schemas
+from app.schemas.client import departement as schemas
+
 
 def get_departement(db: Session, departement_id: int):
     return db.query(departement).filter(departement_id == departement_id).first()

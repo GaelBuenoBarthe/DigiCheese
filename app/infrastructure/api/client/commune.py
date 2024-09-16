@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from app.models.client import commune as CommuneModel
-from app.schemas import commune as schemas
+from app.schemas.client import commune as schemas
+
 
 def get_commune(db: Session, commune_id: int):
     return db.query(CommuneModel).filter(CommuneModel.id == commune_id).first()

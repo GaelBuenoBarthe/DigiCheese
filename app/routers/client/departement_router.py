@@ -1,9 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from typing import List
 
 from app.database import get_db
-from app.schemas.departement import DepartementCreate, DepartementUpdate, DepartementResponse
+from app.schemas.client.departement import DepartementCreate, DepartementUpdate, DepartementResponse
 from app.infrastructure.api.client.departement_controller import (
     get_departement as get_departement_controller,
     get_all_departements as get_all_departements_controller,
