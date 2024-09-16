@@ -41,11 +41,12 @@ def importmodels():
     from app.models.utilisateur.role import Role
 
     # Import stock-related models
+    from app.models.stock.objet import Objet
     from app.models.stock.objet_cond import ObjetCond
     from app.models.stock.poids import Poids
     from app.models.stock.vignette import Vignette
     from app.models.stock.conditionnement import Conditionnement
-    from app.models.stock.objet import Objet
+
 
     # Import fidelite-related models
     from app.models.fidelite.programme_fidelite import ProgrammeFidelite
