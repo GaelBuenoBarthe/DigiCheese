@@ -1,10 +1,17 @@
-from sqlalchemy import Column, Integer, String, Date, Boolean, ForeignKey, Index, Numeric, Float,MetaData
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import relationship
 
 from app.database import Base
 
 class Departement(Base):
-	__tablename__ = "t_dept"
+    """
+    Modèle SQLAlchemy représentant un département dans la base de données
+    """
+    __tablename__ = "departement"
 
-	code_dept = Column(String(2),primary_key=True)
-	nom_dept = Column(String(50), default=None)
-	ordre_aff_dept = Column(Integer, default=0)
+    id = Column(Integer, primary_key=True, index=True)  # Clé primaire, auto-incrémentée
+    code = Column(String(50))  # Code du département
+    nom = Column(String(50))  # Nom du département
+
+    # Relation avec Commune (1-n)
+    communes = relationship("Commune", back_populates="departement")
