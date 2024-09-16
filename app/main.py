@@ -2,7 +2,7 @@ from fastapi import FastAPI
 
 from app.routers.utilisateur import roles_router, utilisateurs_router
 from app.routers.fidelite import programme_fidelite_router
-from app.routers.stock import objet_cond_router, poids_router, vignette_router
+from app.routers.stock import objet_cond_router, poids_router, vignette_router, conditionnement_router
 from app.routers.commande import commande_router, detail_objet_router, detail_router
 from app.routers.client import clients_router, commune_router, departement_router, enseigne_router
 from app.database import init_db
@@ -22,7 +22,7 @@ app.include_router(clients_router.router, prefix="/client", tags=["Clients"])
 app.include_router(commune_router.router, prefix="/commune", tags=["Communes"])
 app.include_router(departement_router.router, prefix="/department", tags=["Departments"])
 app.include_router(enseigne_router.router, prefix="/enseigne", tags=["Enseignes"])
-
+app.include_router(conditionnement_router.router, prefix="/conditionnement", tags=["Conditionnements"])
 @app.get("/")
 def read_root():
     return {"Bienvenue dans Digicheese !"}

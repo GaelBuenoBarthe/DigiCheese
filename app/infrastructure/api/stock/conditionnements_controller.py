@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
-from app.models.conditionnement import Conditionnement
-from app.schemas.conditionnement import ConditionnementCreate
+from app.models.stock.conditionnement import Conditionnement
+from app.schemas.conditionnements import ConditionnementCreate
 
 # Fonction pour créer un nouveau conditionnement
 def create_conditionnement(db: Session, conditionnement_data: ConditionnementCreate):
