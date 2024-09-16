@@ -38,7 +38,7 @@ def test_create_commune_success(db_session: Session):
         "nom": "New Commune",
         "departement_id": 2
     }
-    response = client.post("/communes/", json=new_commune)
+    response = client.post("/commune/", json=new_commune)
     assert response.status_code == 201
     assert response.json()["nom"] == "New Commune"
     assert response.json()["code_postal"] == "67890"

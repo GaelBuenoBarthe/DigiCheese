@@ -13,7 +13,7 @@ def get_commune(id: int, db: Session):
     return commune
 
 def create_commune(commune: CommuneCreate, db: Session):
-    db_commune = Commune(**commune.dict())
+    db_commune = Commune(**commune.model_dump())
     db.add(db_commune)
     db.commit()
     db.refresh(db_commune)
@@ -24,7 +24,7 @@ def update_commune(id: int, commune_update: CommuneUpdate, db: Session):
     if not db_commune:
         raise HTTPException(status_code=404, detail="Commune non trouvée")
 
-    for key, value in commune_update.dict(exclude_unset=True).items():
+    for key, value in commune_update.model_dump(exclude_unset=True).items():
         setattr(db_commune, key, value)
 
     db.commit()

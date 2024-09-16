@@ -63,7 +63,7 @@ def test_create_client_success(db_session: Session):
         "newsletter": False
     }
     # Send POST request to create a new client via API
-    response = client.post("/clients/", json=new_client_data)
+    response = client.post("/client/", json=new_client_data)
     assert response.status_code == 201
 
     created_client = response.json()
@@ -87,7 +87,7 @@ def test_create_client_failure(db_session: Session):
     invalid_client_data = {
         "email": "invalid@example.com"  # Missing other required fields
     }
-    response = client.post("/clients/", json=invalid_client_data)
+    response = client.post("/client/", json=invalid_client_data)
     assert response.status_code == 422
 
 def test_get_client_success(create_test_client: Client, db_session: Session):
@@ -95,7 +95,7 @@ def test_get_client_success(create_test_client: Client, db_session: Session):
     Test to retrieve a client by codcli successfully
     """
     client_id = create_test_client.codcli  # Use codcli as primary key
-    response = client.get(f"/clients/{client_id}")
+    response = client.get(f"/client/{client_id}")
     assert response.status_code == 200
     client_data = response.json()
     assert client_data["codcli"] == client_id
@@ -109,7 +109,7 @@ def test_get_client_failure(db_session: Session):
     Test to retrieve a non-existent client by codcli
     """
     invalid_client_id = 9999
-    response = client.get(f"/clients/{invalid_client_id}")
+    response = client.get(f"/client/{invalid_client_id}")
     assert response.status_code == 404
 
 def test_update_client_success(create_test_client: Client, db_session: Session):
@@ -130,7 +130,7 @@ def test_update_client_success(create_test_client: Client, db_session: Session):
         "portable": "9876543210",
         "newsletter": True
     }
-    response = client.put(f"/clients/{client_id}", json=updated_data)
+    response = client.put(f"/client/{client_id}", json=updated_data)
     assert response.status_code == 200
     updated_client = response.json()
     assert updated_client["codcli"] == client_id
@@ -157,7 +157,7 @@ def test_update_client_failure(db_session: Session):
         "portable": "0000000000",
         "newsletter": False
     }
-    response = client.put(f"/clients/{invalid_client_id}", json=updated_data)
+    response = client.put(f"/client/{invalid_client_id}", json=updated_data)
     assert response.status_code == 404
 
 def test_delete_client_success(create_test_client: Client, db_session: Session):
@@ -165,12 +165,12 @@ def test_delete_client_success(create_test_client: Client, db_session: Session):
     Test to delete an existing client successfully
     """
     client_id = create_test_client.codcli  # Use codcli as primary key
-    response = client.delete(f"/clients/{client_id}")
+    response = client.delete(f"/client/{client_id}")
     assert response.status_code == 200
     assert response.json() == {"message": "Client deleted successfully"}
 
     # Confirm that the client has been deleted
-    response = client.get(f"/clients/{client_id}")
+    response = client.get(f"/client/{client_id}")
     assert response.status_code == 404
 
 def test_delete_client_failure(db_session: Session):
@@ -178,14 +178,14 @@ def test_delete_client_failure(db_session: Session):
     Test to delete a non-existent client
     """
     invalid_client_id = 9999
-    response = client.delete(f"/clients/{invalid_client_id}")
+    response = client.delete(f"/client/{invalid_client_id}")
     assert response.status_code == 404
 
 def test_get_all_clients_success(create_test_client: Client, db_session: Session):
     """
     Test to retrieve all clients with pagination
     """
-    response = client.get("/clients/")
+    response = client.get("/client/")
     assert response.status_code == 200
     data = response.json()
     assert isinstance(data, list)
@@ -200,7 +200,7 @@ def test_get_all_clients_empty(db_session: Session):
     db_session.query(Client).delete()
     db_session.commit()
 
-    response = client.get("/clients/")
+    response = client.get("/client/")
     assert response.status_code == 200
     data = response.json()
     assert isinstance(data, list)

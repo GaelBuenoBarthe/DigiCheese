@@ -9,7 +9,8 @@ class Transaction(Base):
     amount_spent = Column(Numeric(precision=10, scale=2))
     points_earned = Column(Numeric(precision=10, scale=2), default=0)
 
-    user = relationship("client", back_populates="transactions")
+
+    client = relationship("client", back_populates="transactions")
 
     def __init__(self, user_id: int, amount_spent: float, points_earned: float):
         self.user_id = user_id
