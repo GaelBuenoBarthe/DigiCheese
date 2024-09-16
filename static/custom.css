@@ -1,0 +1,55 @@
+@font-face {
+    font-family: 'BigCheese';
+    src: url('/static/BigCheese.ttf') format('truetype');
+}
+
+.title {
+    text-align: center;
+}
+
+.title h1 {
+    font-family: 'BigCheese', sans-serif;
+    font-size: 4em;
+    color: black;
+    text-shadow: 2px 2px 0 goldenrod, -2px -2px 0 orange, 2px -2px 0 yellow, -2px 2px 0 darkorange, 4px 4px 5px yellow; /* Contour orange et ombre jaune */
+    margin: 0 10px;
+}
+
+.title img {
+    width: 70px;
+    height: 70px;
+    animation: heartbeat 1.5s infinite;
+    display: block;
+    margin: 10px auto;
+}
+
+@keyframes heartbeat {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.bg {
+    background-image: url('/static/background.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.8;
+}
+
+.description {
+    font-size: 2em;
+    font-weight: bold;
+    color: white;
+}
+
+.header a.docs-link {
+    font-family: 'BigCheese', sans-serif;
+    font-size: 1.5em;
+    color: black;
+    text-shadow: 1px 1px 0 goldenrod, -1px -1px 0 orange, 1px -1px 0 yellow, -1px 1px 0 darkorange, 2px 2px 3px yellow; /* Contour orange et ombre jaune */
+    text-decoration: none;
+}
