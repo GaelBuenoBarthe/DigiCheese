@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenue dans Digicheese</title>
+    <link rel="stylesheet" href="/static/custom.css">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+        .bg {
+            background-image: url('/static/background.jpg'); /* Chemin vers votre image */
+            height: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            opacity: 0.8; /* Réduire l'opacité à 80% */
+        }
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Bande légèrement opaque */
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header .left {
+            flex-grow: 1;
+            text-align: left;
+        }
+        .header a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+        .header .datetime {
+            color: white;
+        }
+        .content {
+            position: absolute;
+            top: 40%; /* Ajuster la position verticale */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+        }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Bande légèrement opaque */
+            text-align: center;
+            padding: 10px;
+            color: white;
+        }
+    </style>
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            const dateTimeString = now.toLocaleDateString('fr-FR', options);
+            document.getElementById('datetime').innerText = dateTimeString;
+        }
+        setInterval(updateDateTime, 1000);
+    </script>
+</head>
+<body onload="updateDateTime()">
+    <div class="bg">
+        <div class="header">
+            <div class="left">
+                <a href="/docs" class="docs-link">Docs</a>
+            </div>
+            <div class="datetime" id="datetime"></div>
+        </div>
+        <div class="content">
+            <div class="title">
+                <h1>Bienvenue dans Digicheese !</h1>
+                <img src="/static/cheese.png" alt="Cheese">
+                <h2 class="description">Votre application de gestion de fromagerie.</h2>
+            </div>
+        </div>
+        <div class="footer">
+            &copy; 2024 Digiteam1 - Bernardo, Fabrice B, Filip, Marwa, Gaël
+        </div>
+    </div>
+</body>
+</html>

@@ -9,22 +9,21 @@ class DepartementBase(BaseModel):
 
 class DepartementCreate(DepartementBase):
     """
-    Schéma pour la création d'un nouveau département
+    Schéma pour la création d'un nouveau département.
     """
     pass
 
 class DepartementUpdate(DepartementBase):
     """
-    Schéma pour la mise à jour d'un département existant
+    Schéma pour la mise à jour d'un département existant.
     """
     pass
 
-
-class Departement(DepartementBase):
+class DepartementResponse(DepartementBase):
     """
-    Schéma de réponse pour un département, incluant l'ID
+    Schéma de réponse pour un département, incluant l'ID.
     """
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True

@@ -14,7 +14,7 @@ class UtilisateurResponse(UtilisateurBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # Adding UtilisateurUpdate for partial updates
 class UtilisateurUpdate(BaseModel):
@@ -23,4 +23,4 @@ class UtilisateurUpdate(BaseModel):
     password: Optional[str] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True

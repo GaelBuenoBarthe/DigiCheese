@@ -20,11 +20,11 @@ class CommuneUpdate(CommuneBase):
     """
     pass
 
-class Commune(CommuneBase):
+class CommuneResponse(CommuneBase):
     """
     Schéma de réponse pour une commune, incluant l'ID.
     """
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
