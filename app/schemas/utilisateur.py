@@ -1,20 +1,26 @@
-from pydantic import BaseModel
 from typing import Optional
 
-class UtilisateurBase(BaseModel):
-    name: Optional[str] = None
-    email: Optional[str] = None
-    # Add other fields as needed
+from pydantic import BaseModel, EmailStr
 
-class UtilisateurCreate(UtilisateurBase):
+
+class UtilisateurBase(BaseModel):
     name: str
     email: str
 
-class UtilisateurUpdate(UtilisateurBase):
-    pass
+class UtilisateurCreate(UtilisateurBase):
+    password: str
 
 class UtilisateurResponse(UtilisateurBase):
-    code_utilisateur: int
+    id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+
+# Adding UtilisateurUpdate for partial updates
+class UtilisateurUpdate(BaseModel):
+    name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    password: Optional[str] = None
+
+    class Config:
+        from_attributes = True
