@@ -1,13 +1,11 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
-
+from sqlalchemy.orm import sessionmaker, declarative_base
 
 # Base class to create models
 Base = declarative_base()
 
 # Database connection URL
-SQLALCHEMY_DATABASE_URL =  "mariadb://root:Bl%40dg3r%24%24@localhost:3306/fromagerie"
+SQLALCHEMY_DATABASE_URL = "mysql://dev:12345@localhost:3306/fromagerie_com"
 
 # Create the SQLAlchemy engine
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
@@ -47,7 +45,6 @@ def importmodels():
     from app.models.stock.vignette import Vignette
     from app.models.stock.conditionnement import Conditionnement
 
-
     # Import fidelite-related models
     from app.models.fidelite.programme_fidelite import ProgrammeFidelite
     from app.models.fidelite.promo import Promo
@@ -58,4 +55,3 @@ def importmodels():
     from app.models.commande.commande import Commande
     from app.models.commande.detail import Detail
     from app.models.commande.detail_objet import DetailObjet
-

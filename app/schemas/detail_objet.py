@@ -17,4 +17,4 @@ class DetailObjetResponse(DetailObjetBase):
     id: int  # Unique identifier for the DetailObjet
 
     class Config:
-        orm_mode = True  # Allows Pydantic to work with SQLAlchemy models
+        from_attributes = True  # Allows Pydantic to work with SQLAlchemy models

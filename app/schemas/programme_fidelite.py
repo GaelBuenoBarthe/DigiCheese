@@ -11,7 +11,7 @@ class BonusResponse(BaseModel):
     points: float
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class PromoResponse(BaseModel):
     id: int
@@ -20,7 +20,7 @@ class PromoResponse(BaseModel):
     discount: float  # or any other field relevant to your promo
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ProgrammeFideliteResponse(BaseModel):
     id: int
@@ -28,4 +28,4 @@ class ProgrammeFideliteResponse(BaseModel):
     points: float
 
     class Config:
-        orm_mode = True
+        from_attributes = True

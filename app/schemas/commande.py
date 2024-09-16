@@ -22,4 +22,4 @@ class Commande(CommandeBase):
     codcde: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True

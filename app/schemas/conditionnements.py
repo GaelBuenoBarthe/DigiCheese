@@ -1,5 +1,4 @@
 from typing import Optional
-
 from pydantic import BaseModel, Field
 from decimal import Decimal
 
@@ -10,7 +9,7 @@ class ConditionnementCreate(BaseModel):
     ordreimp: int  # Order of importance
 
     class Config:
-        orm_mode = True  # Enable ORM mode to support SQLAlchemy models
+        from_attributes = True  # Enable ORM mode to support SQLAlchemy models
 
 class ConditionnementResponse(BaseModel):
     idcondit: int  # ID of the conditionnement
@@ -20,7 +19,7 @@ class ConditionnementResponse(BaseModel):
     ordreimp: int  # Order of importance
 
     class Config:
-        orm_mode = True  # Enable ORM mode to support SQLAlchemy models
+        from_attributes = True  # Enable ORM mode to support SQLAlchemy models
 
 class ConditionnementUpdate(BaseModel):
     libcondit: Optional[str] = Field(None, max_length=50)  # Optional name of the conditionnement
@@ -29,4 +28,4 @@ class ConditionnementUpdate(BaseModel):
     ordreimp: Optional[int]  # Optional order of importance
 
     class Config:
-        orm_mode = True  # Enable ORM mode to support SQLAlchemy models
+        from_attributes = True  # Enable ORM mode to support SQLAlchemy models
