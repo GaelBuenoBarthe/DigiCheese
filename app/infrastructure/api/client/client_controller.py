@@ -3,7 +3,7 @@ from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.models.client import Client
-from app.schemas.client import ClientCreate, ClientUpdate, ClientResponse
+from app.schemas.client.client import ClientCreate, ClientUpdate, ClientResponse
 
 
 def get_all_clients(skip: int, limit: int, db: Session):
