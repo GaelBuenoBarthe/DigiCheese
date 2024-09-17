@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from app.database import get_db
+from app.models.fidelite.programme_fidelite import ProgrammeFidelite
 from app.schemas.departement import DepartementCreate, DepartementUpdate, DepartementResponse
 from app.infrastructure.api.client.departement_controller import (
     get_departement as get_departement_controller,
@@ -92,3 +93,11 @@ def delete_departement_route(departement_id: int, db: Session = Depends(get_db))
         Le département supprimé.
     """
     return delete_departement_controller(departement_id, db)
+
+@router.get("/fidelite/{user_id}", response_model=ProgrammeFidelite)
+def read_fidelite(user_id: int, db: Session = Depends(get_db)):
+    return get_fidelite(user_id, db)
+
+@router.get("/fidelite/{user_id}/bonus", response_model=List[BonusResponse])
+def read_fidelite_bonus(user_id: int, db: Session = Depends(get_db)):
+    return get_fidelite_bonus(user_id, db)
