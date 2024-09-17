@@ -531,6 +531,37 @@ def populate_db():
 
         session.commit()
 
+        # Creation de Bonus
+        bonus1 = session.query(Bonus).filter_by(name="Bonus 1").first()
+        if not bonus1:
+            bonus1 = Bonus(
+                user_id=utilisateur1.code_utilisateur,
+                bonus_type="WELCOME",
+                points=100.0,
+                name="Bonus 1"
+            )
+            session.add(bonus1)
+        else:
+            bonus1.user_id = utilisateur1.code_utilisateur
+            bonus1.bonus_type = "WELCOME"
+            bonus1.points = 100.0
+
+        bonus2 = session.query(Bonus).filter_by(name="Bonus 2").first()
+        if not bonus2:
+            bonus2 = Bonus(
+                user_id=utilisateur2.code_utilisateur,
+                bonus_type="ANNIVERSARY",
+                points=200.0,
+                name="Bonus 2"
+            )
+            session.add(bonus2)
+        else:
+            bonus2.user_id = utilisateur2.code_utilisateur
+            bonus2.bonus_type = "ANNIVERSARY"
+            bonus2.points = 200.0
+
+        session.commit()
+
         print("Base de données remplie avec succès!")
     except Exception as e:
         session.rollback()
