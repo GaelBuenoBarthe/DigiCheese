@@ -9,7 +9,7 @@ def add_transaction(user_id: int, transaction_data: TransactionCreate, db: Sessi
         raise HTTPException(status_code=404, detail="Fidelity program not found for user")
 
     points_earned = calculate_points(transaction_data.amount_spent)
-    transaction_instance = transaction(user_id=user_id, amount_spent=transaction_data.amount_spent, points_earned=points_earned)
+    transaction_instance = transaction
 
     user_fidelity.points += points_earned
     db.add(transaction_instance)
@@ -18,14 +18,14 @@ def add_transaction(user_id: int, transaction_data: TransactionCreate, db: Sessi
     return user_fidelity
 
 def calculate_points(amount: float) -> float:
-    return amount * 0.1  # Example calculation: 10 points per 1 euro spent
+    return amount * 0.1  # Example calculation : 10 points per 1 euro spent
 
 def add_bonus(user_id: int, bonus_type: str, points: float, db: Session):
     user_fidelity = db.query(programme_fidelite).filter(programme_fidelite.user_id == user_id).first()
     if not user_fidelity:
         raise HTTPException(status_code=404, detail="Fidelity program not found for user")
 
-    bonus_instance = bonus(user_id=user_id, bonus_type=bonus_type, points=points)
+    bonus_instance = bonus
     user_fidelity.points += points
 
     db.add(bonus_instance)

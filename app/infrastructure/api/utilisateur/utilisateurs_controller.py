@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException
 
 from app.models.utilisateur import utilisateur, role_utilisateur, role
+from app.models.utilisateur.utilisateur import Utilisateur
 from app.schemas.utilisateur import UtilisateurCreate, UtilisateurUpdate, UtilisateurResponse
 
 

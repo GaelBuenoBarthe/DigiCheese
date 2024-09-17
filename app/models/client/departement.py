@@ -15,3 +15,4 @@ class Departement(Base):
 
     # Relation avec Commune (1-n)
     communes = relationship("Commune", back_populates="departement")
+    enseignes = relationship("Enseigne", back_populates="departement")
