@@ -13,10 +13,11 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL)
 # Create a configured session class
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Create all tables (Ensure this is called at some point)
+# Create all tables
 def init_db():
     importmodels()  # Ensure models are imported
-    Base.metadata.create_all(bind=engine)
+    Base.metadata.drop_all(bind=engine)  # Drop all existing tables
+    Base.metadata.create_all(bind=engine)  # Create all tables with the updated schema
 
 # Dependency function to provide a database session
 def get_db():
