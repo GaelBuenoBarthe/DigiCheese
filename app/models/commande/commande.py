@@ -1,12 +1,12 @@
+# app/models/commande/commande.py
 from sqlalchemy import Column, Integer, String, Date, ForeignKey, Index, Float
 from sqlalchemy.orm import relationship
 from app.database import Base
 
-# Creation de la table commande
 class Commande(Base):
     __tablename__ = "commande"
 
-    codcde = Column(Integer, primary_key=True)  # Clé primaire
+    codcde = Column(Integer, primary_key=True, autoincrement=True)  # Clé primaire auto-incrémentée
     datcde = Column(Date)  # Date de la commande
     codcli = Column(Integer, ForeignKey('client.codcli'))  # ForeignKey vers Client
     timbrecli = Column(Float)  # Timbre client
@@ -25,8 +25,7 @@ class Commande(Base):
     # Index sur certaines colonnes
     __table_args__ = (Index('commande_index', "cdeComt", "codcli"),)
 
-    def __init__(self, codcde: int, datcde: Date, codcli: int, timbrecli: float, timbre_cde: float, nbcolis: int, cheqcli: float, idcondit: int, cdeComt: str, barchive: int, bstock: int, name: str):
-        self.codcde = codcde
+    def __init__(self, datcde: Date, codcli: int, timbrecli: float, timbre_cde: float, nbcolis: int, cheqcli: float, idcondit: int, cdeComt: str, barchive: int, bstock: int, name: str):
         self.datcde = datcde
         self.codcli = codcli
         self.timbrecli = timbrecli
@@ -37,7 +36,4 @@ class Commande(Base):
         self.cdeComt = cdeComt
         self.barchive = barchive
         self.bstock = bstock
-        self.name = name  # Assignation de l'attribut name
-
-        # Define the relationship to Client
-        client = relationship("Client", back_populates="commandes")
+        self.name = name

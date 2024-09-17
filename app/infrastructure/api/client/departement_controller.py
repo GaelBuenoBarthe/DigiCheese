@@ -37,7 +37,7 @@ def update_departement(id: int, departement_update: DepartementUpdate, db: Sessi
     if not db_departement:
         raise HTTPException(status_code=404, detail="Département non trouvé")
 
-    for key, value in departement_update.dict(exclude_unset=True).items():
+    for key, value in departement_update.model_dump(exclude_unset=True).items():
         setattr(db_departement, key, value)
 
     db.commit()
