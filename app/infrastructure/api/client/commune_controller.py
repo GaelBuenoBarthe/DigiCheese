@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from app.models.client.commune import Commune
-from app.schemas.commune import CommuneCreate, CommuneUpdate
+from app.schemas.client.commune import CommuneCreate, CommuneUpdate
 
 def get_all_communes(skip: int, limit: int, db: Session):
     return db.query(Commune).offset(skip).limit(limit).all()

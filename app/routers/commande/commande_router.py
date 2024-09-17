@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from typing import List
 from app.infrastructure.api.commande.commandes_controller import (
@@ -8,7 +8,7 @@ from app.infrastructure.api.commande.commandes_controller import (
     get_commande as get_commande_controller,
     get_commandes as get_commandes_controller
 )
-from app.schemas.commande import Commande, CommandeCreate
+from app.schemas.commandes.commande import Commande, CommandeCreate
 from app.database import get_db
 
 router = APIRouter()

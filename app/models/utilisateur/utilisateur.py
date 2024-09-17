@@ -1,6 +1,5 @@
-from sqlalchemy import Column, Integer, String, Date, Boolean, ForeignKey, Index, Numeric, Float,MetaData
+from sqlalchemy import Column, Integer, String, Date
 from sqlalchemy.orm import relationship
-
 from app.database import Base
 
 class Utilisateur(Base):
@@ -13,4 +12,4 @@ class Utilisateur(Base):
     couleur_fond_utilisateur = Column(Integer, default=0)
     date_insc_utilisateur = Column(Date)
 
-
+    bonuses = relationship("Bonus", back_populates="utilisateur")

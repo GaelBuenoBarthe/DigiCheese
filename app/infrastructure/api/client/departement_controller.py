@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
-from fastapi import HTTPException, status
+from fastapi import HTTPException
 
 from app.models.client.departement import Departement
-from app.schemas.departement import DepartementCreate, DepartementUpdate
+from app.schemas.client.departement import DepartementCreate, DepartementUpdate
 
 def get_all_departements(skip: int, limit: int, db: Session):
     """
@@ -37,7 +37,7 @@ def update_departement(id: int, departement_update: DepartementUpdate, db: Sessi
     if not db_departement:
         raise HTTPException(status_code=404, detail="Département non trouvé")
 
-    for key, value in departement_update.dict(exclude_unset=True).items():
+    for key, value in departement_update.model_dump(exclude_unset=True).items():
         setattr(db_departement, key, value)
 
     db.commit()

@@ -3,7 +3,7 @@ from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.models.client import Client
-from app.schemas.client import ClientCreate, ClientUpdate, ClientResponse
+from app.schemas.client.client import ClientCreate, ClientUpdate, ClientResponse
 
 
 def get_all_clients(skip: int, limit: int, db: Session):
@@ -47,7 +47,7 @@ def create_client(client: ClientCreate, db: Session) -> ClientResponse:
     Raises a 400 Bad Request exception if a constraint violation or other database error occurs.
     """
     try:
-        db_client = Client(**client.dict())
+        db_client = Client()
         db.add(db_client)
         db.commit()
         db.refresh(db_client)
@@ -76,7 +76,7 @@ def update_client(id: int, client_update: ClientUpdate, db: Session):
         if not db_client:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Client not found")
 
-        for key, value in client_update.dict(exclude_unset=True).items():
+        for key, value in client_update.model_dump(exclude_unset=True).items():
             setattr(db_client, key, value)
 
         db.commit()

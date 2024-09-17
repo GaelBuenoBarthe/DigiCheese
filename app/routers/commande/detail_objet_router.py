@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.database import get_db
-from app.schemas.detail_objet import DetailObjetCreate, DetailObjetResponse
+from app.schemas.commandes.detail_objet import DetailObjetCreate, DetailObjetResponse
 from app.infrastructure.api.commande.details_objet_controller import (
     get_all_detail_objets as get_all_detail_objets_controller,
     get_detail_objet as get_detail_objet_controller,

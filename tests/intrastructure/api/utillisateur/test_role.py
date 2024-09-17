@@ -4,7 +4,7 @@ import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, base
 from app.models.utilisateur import  role
-from app.schemas.role import RoleCreate, RoleResponse
+from app.schemas.utilisateur.role import RoleCreate
 from app import crud
 
 # Setup in-memory SQLite database

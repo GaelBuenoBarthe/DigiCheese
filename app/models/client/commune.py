@@ -17,5 +17,5 @@ class Commune(Base):
     departement_id = Column(Integer, ForeignKey("departement.id"))  # Clé étrangère vers le département
     departement = relationship("Departement", back_populates="communes")
 
-    # Relation avec Client (1-n) - Même si pas explicitement dans le schéma, souvent utile
-    clients = relationship("Client", back_populates="ville")
+    # Relation avec Client (1-n)
+    clients = relationship("Client", back_populates="commune")

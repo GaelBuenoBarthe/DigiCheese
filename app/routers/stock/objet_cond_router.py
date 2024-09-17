@@ -1,14 +1,13 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.schemas.objet_cond import ObjetCondCreate, ObjetCondResponse
+from app.schemas.stocks.objet_cond import ObjetCondCreate, ObjetCondResponse
 from app.infrastructure.api.stock.objet_conds_controller import (
     get_all_objet_cond as getallfromcontroller,
     get_objet_cond as getfromcontroller,
     create_objet_cond as createfromcontroller,
     update_objet_cond as updatefromcontroller,
-    delete_objet_cond as deletefromcontroller,
 )
 
 router = APIRouter()

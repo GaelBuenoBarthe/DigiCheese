@@ -5,7 +5,6 @@ from fastapi.testclient import TestClient
 from app.database import SessionLocal
 from app.main import app
 from app.models.stock.poids import Poids
-from app.schemas.poids import PoidsCreate
 
 client = TestClient(app)
 

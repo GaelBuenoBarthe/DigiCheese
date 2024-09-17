@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
-from app.schemas.detail import Detail, DetailCreate
+from app.schemas.commandes.detail import Detail, DetailCreate
 from app.database import get_db
 from app.infrastructure.api.commande.details_controller import (
     create_detail,
