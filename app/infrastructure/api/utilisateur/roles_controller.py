@@ -1,12 +1,14 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from app.models.utilisateur import role
+from app.models.utilisateur.role import Role
 from app.schemas.role import RoleCreate, RoleResponse
 
 
 # Get all roles
-def get_roles(db: Session, skip: int = 0, limit: int = 10):
-    return db.query(role).offset(skip).limit(limit).all()
+def get_roles(skip: int, limit: int, db: Session):
+    roles = db.query(Role).offset(skip).limit(limit).all()
+    return [RoleResponse(id=role.codrole, name=role.librole) for role in roles]
 
 
 # Create a new role
