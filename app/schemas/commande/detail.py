@@ -1,18 +1,20 @@
 from pydantic import BaseModel
 from typing import Optional
+from datetime import date
 
-#Création d'une classe DetailBase qui hérite de BaseModel
+
+
+#Création d'une classe CommandeBase qui hérite de BaseModel
 class DetailBase(BaseModel):
-    codcde: int
-    qte: Optional[int] = 1
-    colis: Optional[int] = 1
-    commentaire: Optional[str] = None
+    detail_id: int
+    objet_id: int
+    name: str
 
 class DetailCreate(DetailBase):
     pass
 
 class Detail(DetailBase):
-    id: int
+    codcde: int
 
     class Config:
         from_attributes = True

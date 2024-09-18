@@ -418,10 +418,12 @@ def populate_db():
             commande2.bstock = 0
         session.commit()
 
-        # Creation de  Details
+        # Creation de Details
         detail1 = session.query(Detail).filter_by(name="Detail 1").first()
         if not detail1:
             detail1 = Detail(
+                detail_id=1,  # Add detail_id
+                objet_id=1,  # Add objet_id
                 codcde=commande1.codcde,
                 qte=1,
                 colis=1,
@@ -430,6 +432,8 @@ def populate_db():
             )
             session.add(detail1)
         else:
+            detail1.detail_id = 1
+            detail1.objet_id = 1
             detail1.codcde = commande1.codcde
             detail1.qte = 1
             detail1.colis = 1
@@ -438,6 +442,8 @@ def populate_db():
         detail2 = session.query(Detail).filter_by(name="Detail 2").first()
         if not detail2:
             detail2 = Detail(
+                detail_id=2,  # Add detail_id
+                objet_id=2,  # Add objet_id
                 codcde=commande2.codcde,
                 qte=2,
                 colis=2,
@@ -446,6 +452,8 @@ def populate_db():
             )
             session.add(detail2)
         else:
+            detail2.detail_id = 2
+            detail2.objet_id = 2
             detail2.codcde = commande2.codcde
             detail2.qte = 2
             detail2.colis = 2
@@ -458,24 +466,28 @@ def populate_db():
             detail_objet1 = DetailObjet(
                 detail_id=detail1.id,
                 objet_id=objet1.codobj,
-                name="DetailObjet 1"
+                name="DetailObjet 1",
+                codcde=commande1.codcde  # Ajout du champ codcde
             )
             session.add(detail_objet1)
         else:
             detail_objet1.detail_id = detail1.id
             detail_objet1.objet_id = objet1.codobj
+            detail_objet1.codcde = commande1.codcde  # Ajout du champ codcde
 
         detail_objet2 = session.query(DetailObjet).filter_by(name="DetailObjet 2").first()
         if not detail_objet2:
             detail_objet2 = DetailObjet(
                 detail_id=detail2.id,
                 objet_id=objet2.codobj,
-                name="DetailObjet 2"
+                name="DetailObjet 2",
+                codcde=commande2.codcde  # Ajout du champ codcde
             )
             session.add(detail_objet2)
         else:
             detail_objet2.detail_id = detail2.id
             detail_objet2.objet_id = objet2.codobj
+            detail_objet2.codcde = commande2.codcde  # Ajout du champ codcde
         session.commit()
 
         # Creation d'enseignes

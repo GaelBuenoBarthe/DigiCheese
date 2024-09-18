@@ -3,10 +3,10 @@ from sqlalchemy.orm import Session
 from typing import List
 from app.schemas.commande.detail import Detail, DetailCreate
 from app.database import get_db
+from app.models.commande.detail import Detail as DetailModel  # Import the Detail model
 from app.infrastructure.api.commande.details_controller import (
     create_detail,
     get_detail,
-    get_details,
     update_detail,
     delete_detail
 )
@@ -25,8 +25,9 @@ def read_detail_route(id: int, db: Session = Depends(get_db)):
     return db_detail
 
 @router.get("/details/", response_model=List[Detail])
-def read_details_route(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    return get_details(db, skip=skip, limit=limit)
+def read_details(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    details = db.query(DetailModel).offset(skip).limit(limit).all()
+    return details
 
 @router.put("/details/{id}", response_model=Detail)
 def update_detail_route(id: int, detail: DetailCreate, db: Session = Depends(get_db)):
