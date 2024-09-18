@@ -1,9 +1,16 @@
+from typing import List
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.database import get_db
+from app.schemas.fidelite.transaction import Transaction as TransactionSchema
+from app.schemas.fidelite.bonus import Bonus as BonusSchema
 from app.schemas.fidelite.programme_fidelite import ProgrammeFideliteResponse, TransactionCreate, BonusResponse, PromoResponse
-from app.infrastructure.api.fidelite.programmes_fidelite_controller import (add_transaction as add_transactionfromcontroller, add_bonus as add_bonusfromcontroller,
-                                                                            check_promo_eligibility as check_promo_eligibilityfromcontroller)
+from app.infrastructure.api.fidelite.programmes_fidelite_controller import (
+    add_transaction as add_transactionfromcontroller, add_bonus as add_bonusfromcontroller,
+    check_promo_eligibility as check_promo_eligibilityfromcontroller, get_fidelite_transactions, get_fidelite_bonus,
+    get_fidelite
+)
 
 router = APIRouter()
 
@@ -28,6 +35,14 @@ def check_promo(user_id: int, promo_id: int, db: Session = Depends(get_db)) -> P
     """
     return check_promo_eligibilityfromcontroller(user_id, promo_id, db)
 
-@router.get("/fidelite/{user_id}", response_model=ProgrammeFideliteResponse)
-def read_fidelite(user_id: int, db: Session = Depends(get_db)):
-    return get_fidelitefromcontroller(user_id, db)
+@router.get("/fidelite/{client_id}", response_model=List[ProgrammeFideliteResponse])
+def read_fidelite(client_id: int, db: Session = Depends(get_db)):
+    return get_fidelite(db, client_id)
+
+@router.get("/transactions/", response_model=List[TransactionSchema])
+def read_fidelite_transactions(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    return get_fidelite_transactions(db=db, skip=skip, limit=limit)
+
+@router.get("/bonus/", response_model=List[BonusSchema])
+def read_fidelite_bonus(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    return get_fidelite_bonus(db=db, skip=skip, limit=limit)

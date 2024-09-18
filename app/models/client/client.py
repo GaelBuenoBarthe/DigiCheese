@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from app.database import Base
+from app.models.fidelite.client_programme_fidelite import client_programme_fidelite
 
 class Client(Base):
     __tablename__ = 'client'
@@ -17,13 +18,15 @@ class Client(Base):
     email = Column(String(255))
     portable = Column(String(10))
     newsletter = Column(Boolean)
-    fidelite = Column(Integer, ForeignKey('programme_fidelite.id', name='fk_client_programme_fidelite'))
 
-    # Define the relationship to Commune
+    # Defini la relation avec commune
     commune = relationship("Commune", back_populates="clients")
 
-    # Define the relationship to Transaction
+    # Defini la relation avec transaction
     transactions = relationship("Transaction", back_populates="client")
 
-    # Define the relationship to Commande
+    # Defini la relation avec commande
     commandes = relationship("Commande", back_populates="client")
+
+    # Defini la relation avec programme_fidelite
+    programmes_fidelite = relationship("ProgrammeFidelite", secondary=client_programme_fidelite, back_populates="clients")

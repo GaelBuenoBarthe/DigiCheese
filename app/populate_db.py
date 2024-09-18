@@ -61,24 +61,6 @@ def populate_db():
             commune2.departement_id = departement2.id
         session.commit()
 
-        # Creation de ProgrammeFidelite
-        programme_fidelite1 = session.query(ProgrammeFidelite).filter_by(client_id=1).first()
-        if not programme_fidelite1:
-            programme_fidelite1 = ProgrammeFidelite(points=100.0, level="Silver")
-            session.add(programme_fidelite1)
-        else:
-            programme_fidelite1.points = 100.0
-            programme_fidelite1.level = "Silver"
-
-        programme_fidelite2 = session.query(ProgrammeFidelite).filter_by(client_id=2).first()
-        if not programme_fidelite2:
-            programme_fidelite2 = ProgrammeFidelite(points=200.0, level="Gold")
-            session.add(programme_fidelite2)
-        else:
-            programme_fidelite2.points = 200.0
-            programme_fidelite2.level = "Gold"
-        session.commit()
-
         # Creation de Clients
         client1 = session.query(Client).filter_by(nom="Client 1").first()
         if not client1:
@@ -93,8 +75,7 @@ def populate_db():
                 telephone="0102030405",
                 email="client1@example.com",
                 portable="0607080910",
-                newsletter=True,
-                fidelite=programme_fidelite1.id
+                newsletter=True
             )
             session.add(client1)
         else:
@@ -108,7 +89,6 @@ def populate_db():
             client1.email = client1.email or "client1@example.com"
             client1.portable = client1.portable or "0607080910"
             client1.newsletter = client1.newsletter or True
-            client1.fidelite = programme_fidelite1.id
 
         client2 = session.query(Client).filter_by(nom="Client 2").first()
         if not client2:
@@ -123,8 +103,7 @@ def populate_db():
                 telephone="0102030406",
                 email="client2@example.com",
                 portable="0607080911",
-                newsletter=False,
-                fidelite=programme_fidelite2.id
+                newsletter=False
             )
             session.add(client2)
         else:
@@ -138,9 +117,32 @@ def populate_db():
             client2.email = client2.email or "client2@example.com"
             client2.portable = client2.portable or "0607080911"
             client2.newsletter = client2.newsletter or False
-            client2.fidelite = programme_fidelite2.id
         session.commit()
 
+        # Rafraîchir les instances pour obtenir les IDs générés
+        session.refresh(client1)
+        session.refresh(client2)
+
+        # Creation de ProgrammeFidelite
+        programme_fidelite1 = session.query(ProgrammeFidelite).filter_by(level="Silver").first()
+        if not programme_fidelite1:
+            programme_fidelite1 = ProgrammeFidelite(points=100.0, level="Silver")
+            session.add(programme_fidelite1)
+
+        programme_fidelite2 = session.query(ProgrammeFidelite).filter_by(level="Gold").first()
+        if not programme_fidelite2:
+            programme_fidelite2 = ProgrammeFidelite(points=200.0, level="Gold")
+            session.add(programme_fidelite2)
+        session.commit()
+
+        # Rafraîchir les instances pour obtenir les IDs générés
+        session.refresh(programme_fidelite1)
+        session.refresh(programme_fidelite2)
+
+        # Associer les clients aux programmes de fidélité
+        client1.programmes_fidelite.append(programme_fidelite1)
+        client2.programmes_fidelite.append(programme_fidelite2)
+        session.commit()
 
         # Creation d'Utilisateurs
         utilisateur1 = session.query(Utilisateur).filter_by(nom_utilisateur="Utilisateur 1").first()
