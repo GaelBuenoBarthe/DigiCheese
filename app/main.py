@@ -4,7 +4,6 @@ from fastapi import FastAPI
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from fastapi.requests import Request
-from fastapi.openapi.docs import get_swagger_ui_html
 from starlette.staticfiles import StaticFiles
 
 from app.routers.utilisateur import roles_router, utilisateurs_router
@@ -16,6 +15,7 @@ from app.database import init_db
 
 app = FastAPI()
 
+#Chemins pour les fichiers statiques
 static_dir = os.path.join(os.path.dirname(__file__), '..', 'static')
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
@@ -40,19 +40,9 @@ app.include_router(conditionnement_router.router, prefix="/conditionnement", tag
 def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-@app.get("/docs", include_in_schema=False)
-async def custom_swagger_ui_html():
-    return get_swagger_ui_html(
-        openapi_url=app.openapi_url,
-        title=app.title + " - Documentation",
-        swagger_favicon_url="/static/favicon.ico",
-        swagger_ui_parameters={"defaultModelsExpandDepth": -1},
-        swagger_css_url="/static/custom_swagger.css"
-    ) + """
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="/" class="custom-link">Retour à l'index</a>
-        <a href="/another-link" class="custom-link">Un autre lien</a>
-    </div>
-    """
+@app.get("/docs", include_in_schema=False, response_class=HTMLResponse)
+async def custom_swagger_ui_html(request: Request):
+    print("Custom Swagger UI endpoint called")
+    return templates.TemplateResponse("swagger_custom.html", {"request": request})
 
 init_db()

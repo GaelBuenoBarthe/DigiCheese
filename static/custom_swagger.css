@@ -4,7 +4,7 @@ body {
     background-position: center;
 }
 
-a.custom-link {
+.custom-link {
     font-family: 'BigCheese', sans-serif;
     font-size: 1.5em;
     color: black;
