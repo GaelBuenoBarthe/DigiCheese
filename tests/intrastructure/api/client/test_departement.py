@@ -3,8 +3,7 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 from app.main import app
 from app.models.client.departement import Departement
-from app.schemas.departement import DepartementCreate, DepartementUpdate
-from app.database import SessionLocal, engine
+from app.database import SessionLocal
 
 client = TestClient(app)
 

@@ -4,7 +4,7 @@ from typing import List
 
 from app.database import get_db
 from app.models.client import Client
-from app.schemas.client import ClientCreate, ClientUpdate, ClientResponse
+from app.schemas.client.client import ClientCreate, ClientUpdate, ClientResponse
 from app.infrastructure.api.client import (
     get_client as get_client_controller,
     get_all_clients as get_all_clients_controller,

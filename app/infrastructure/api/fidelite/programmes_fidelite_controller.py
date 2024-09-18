@@ -4,7 +4,8 @@ from app.models.fidelite.promo import Promo
 from app.models.fidelite.programme_fidelite import ProgrammeFidelite
 from app.models.fidelite.transaction import Transaction
 from app.models.fidelite.bonus import Bonus
-from app.schemas.programme_fidelite import TransactionCreate, BonusResponse, PromoResponse
+from app.schemas.fidelite.programme_fidelite import TransactionCreate, ProgrammeFideliteResponse
+
 
 def add_transaction(user_id: int, transaction_data: TransactionCreate, db: Session):
     user_fidelity = db.query(ProgrammeFidelite).filter(ProgrammeFidelite.client_id == user_id).first()
@@ -54,3 +55,9 @@ def check_promo_eligibility(user_id: int, promo_id: int, db: Session):
         return {"eligible": True, "promo": promo_instance}
     else:
         return {"eligible": False, "message": "Not enough points"}
+
+def get_fidelite(user_id: int, db: Session):
+    user_fidelity = db.query(ProgrammeFidelite).filter(ProgrammeFidelite.client_id == user_id).first()
+    if not user_fidelity:
+        raise HTTPException(status_code=404, detail="Fidelity program not found for user")
+    return ProgrammeFideliteResponse.model_validate(user_fidelity)

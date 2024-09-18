@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from app.database import SessionLocal, get_db
-from app.schemas.objet import ObjetCreate, ObjetUpdate, ObjetResponse
+from app.database import get_db
+from app.schemas.stock.objet import ObjetCreate, ObjetUpdate, ObjetResponse
 from app.infrastructure.api.stock.objets_controller import (
     get_all_objets as getallfromcontroller,
     get_objet as getfromcontroller,

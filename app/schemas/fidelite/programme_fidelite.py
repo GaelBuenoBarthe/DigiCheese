@@ -26,6 +26,7 @@ class ProgrammeFideliteResponse(BaseModel):
     id: int
     user_id: int
     points: float
+    level: Optional[str]
 
     class Config:
         from_attributes = True

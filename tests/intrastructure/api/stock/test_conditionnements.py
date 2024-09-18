@@ -3,8 +3,6 @@ from http.client import HTTPException
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
-from app.models.stock import conditionnement
-from app.models.stock import objet_cond
 from app.database import Base
 from app.infrastructure.api.stock.conditionnements_controller import (
     create_conditionnement,
@@ -13,9 +11,7 @@ from app.infrastructure.api.stock.conditionnements_controller import (
     update_conditionnement,
     delete_conditionnement
 )
-from app.schemas.conditionnements import ConditionnementCreate
-from app.models.stock.conditionnement import Conditionnement
-
+from app.schemas.stock.conditionnements import ConditionnementCreate
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
 

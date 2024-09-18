@@ -5,8 +5,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from fastapi.testclient import TestClient
 from app.main import app
-from app.models.fidelite import programme_fidelite, transaction, bonus, promo
-from app.schemas.programme_fidelite import TransactionCreate, BonusResponse, PromoResponse
+from app.models.fidelite import programme_fidelite, transaction, promo
+from app.schemas.fidelite.programme_fidelite import TransactionCreate
 from app import crud
 from app.database import  Base
 

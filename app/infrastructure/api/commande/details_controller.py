@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from app.models.commande.detail import Detail
-from app.schemas.detail import DetailCreate
+from app.schemas.commande.detail import DetailCreate
 
 #Fonction pour créer un détail
 def create_detail(db: Session, detail: DetailCreate):

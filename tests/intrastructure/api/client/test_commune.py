@@ -4,8 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 from app.main import app
 from app.models.client.commune import Commune
-from app.schemas.commune import CommuneCreate, CommuneUpdate
-from app.database import SessionLocal, Base
+from app.database import Base
 
 client = TestClient(app)
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"  # Use an in-memory database for testing

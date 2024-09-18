@@ -1,7 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.database import get_db
-from app.schemas.programme_fidelite import ProgrammeFideliteResponse, TransactionCreate, BonusResponse, PromoResponse
+from app.schemas.fidelite.programme_fidelite import ProgrammeFideliteResponse, TransactionCreate, BonusResponse, PromoResponse
 from app.infrastructure.api.fidelite.programmes_fidelite_controller import (add_transaction as add_transactionfromcontroller, add_bonus as add_bonusfromcontroller,
                                                                             check_promo_eligibility as check_promo_eligibilityfromcontroller)
 
@@ -27,3 +27,7 @@ def check_promo(user_id: int, promo_id: int, db: Session = Depends(get_db)) -> P
     Vérifie l'éligibilité d'une promotion pour un utilisateur et retourne les détails de la promo.
     """
     return check_promo_eligibilityfromcontroller(user_id, promo_id, db)
+
+@router.get("/fidelite/{user_id}", response_model=ProgrammeFideliteResponse)
+def read_fidelite(user_id: int, db: Session = Depends(get_db)):
+    return get_fidelitefromcontroller(user_id, db)

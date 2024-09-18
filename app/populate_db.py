@@ -276,7 +276,7 @@ def populate_db():
             session.add(objet2)
         session.commit()
 
-        # Creation de ObjetCond
+        # Creation d' ObjetCond
         objet_cond1 = session.query(ObjetCond).filter_by(codobj=objet1.codobj, codcond=conditionnement1.idcondit).first()
         if not objet_cond1:
             objet_cond1 = ObjetCond(qteobjdeb=10, qteobjfin=20, codobj=objet1.codobj, codcond=conditionnement1.idcondit)

@@ -5,7 +5,6 @@ from fastapi.testclient import TestClient
 from app.database import SessionLocal
 from app.main import app
 from app.models.stock.objet_cond import ObjetCond
-from app.schemas.objet_cond import ObjetCondCreate
 
 client = TestClient(app)
 

@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
-from fastapi import HTTPException, status
+from fastapi import HTTPException
 
 from app.models.client.enseigne import Enseigne
-from app.schemas.enseigne import EnseigneCreate, EnseigneUpdate
+from app.schemas.client.enseigne import EnseigneCreate, EnseigneUpdate
 
 def get_all_enseignes(skip: int, limit: int, db: Session):
     """

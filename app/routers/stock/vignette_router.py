@@ -1,8 +1,8 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.schemas.vignette import VignetteCreate, VignetteResponse
+from app.schemas.stock.vignette import VignetteCreate, VignetteResponse
 from app.infrastructure.api.stock.vignettes_controller import (
     get_all_vignettes,
     get_vignette,

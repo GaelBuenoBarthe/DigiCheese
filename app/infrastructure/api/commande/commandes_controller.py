@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from app.models.commande import Commande
-from app.schemas.commande import CommandeCreate
+from app.schemas.commande.commande import CommandeCreate
 
 #Fonction pour créer une commande
 def create_commande(db: Session, commande: CommandeCreate):

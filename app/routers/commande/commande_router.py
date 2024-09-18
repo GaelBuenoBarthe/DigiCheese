@@ -8,7 +8,7 @@ from app.infrastructure.api.commande.commandes_controller import (
     get_commande as get_commande_controller,
     get_commandes as get_commandes_controller
 )
-from app.schemas.commande import Commande, CommandeCreate
+from app.schemas.commande.commande import Commande, CommandeCreate
 from app.database import get_db
 
 router = APIRouter()

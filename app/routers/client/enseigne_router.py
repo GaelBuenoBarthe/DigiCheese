@@ -1,10 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from typing import List
 
 from app.database import get_db
 
-from app.schemas.enseigne import EnseigneCreate, EnseigneUpdate, EnseigneResponse
+from app.schemas.client.enseigne import EnseigneCreate, EnseigneUpdate, EnseigneResponse
 from app.infrastructure.api.client.enseigne_controller import (
     get_enseigne as getfromcontroller, get_all_enseignes as getallfromcontorller, delete_enseigne as deletefromcontroller,
     create_enseigne as createfromcontroller, update_enseigne as updatefromcontroller

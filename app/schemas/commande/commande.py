@@ -7,7 +7,7 @@ class CommandeBase(BaseModel):
     datcde: date
     codcli: int
     timbrecli: float
-    timbrecde: float
+    timbre_cde: float
     nbcolis: Optional[int] = 1
     cheqcli: float
     idcondit: Optional[int] = 0
