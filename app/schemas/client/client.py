@@ -21,7 +21,7 @@ class ClientUpdate(ClientBase):
     pass
 
 class ClientResponse(BaseModel):
-    id: int
+    codcli: int
     genre: Optional[str] = None
     nom: str
     prenom: Optional[str] = None

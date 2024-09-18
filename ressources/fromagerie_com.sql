@@ -1,94 +1,111 @@
+-- MySQL dump 10.13  Distrib 5.7.24, for Win64 (x86_64)
+--
+-- Host: localhost    Database: fromagerie_com
+-- ------------------------------------------------------
+-- Server version	8.0.39
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*!40000 ALTER TABLE `bonus` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `bonus`
+-- Table structure for table `client`
 --
 
-DROP TABLE IF EXISTS `bonus`;
+DROP TABLE IF EXISTS `client`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bonus` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int DEFAULT NULL,
-  `bonus_type` varchar(50) DEFAULT NULL,
-  `points` decimal(10,2) DEFAULT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `ix_bonus_id` (`id`),
-  CONSTRAINT `bonus_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `utilisateur` (`code_utilisateur`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `client` (
+  `codcli` int NOT NULL AUTO_INCREMENT,
+  `genre` varchar(8) DEFAULT NULL,
+  `nom` varchar(40) DEFAULT NULL,
+  `prenom` varchar(30) DEFAULT NULL,
+  `adresse1` varchar(50) DEFAULT NULL,
+  `adresse2` varchar(50) DEFAULT NULL,
+  `adresse3` varchar(50) DEFAULT NULL,
+  `ville_id` int DEFAULT NULL,
+  `telephone` varchar(10) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `portable` varchar(10) DEFAULT NULL,
+  `newsletter` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`codcli`),
+  KEY `fk_client_commune` (`ville_id`),
+  CONSTRAINT `fk_client_commune` FOREIGN KEY (`ville_id`) REFERENCES `commune` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `bonus`
+-- Dumping data for table `client`
 --
 
-LOCK TABLES `bonus` WRITE;
-/*!40000 ALTER TABLE `bonus` DISABLE KEYS */;
+LOCK TABLES `client` WRITE;
+/*!40000 ALTER TABLE `client` DISABLE KEYS */;
+INSERT INTO `client` VALUES (1,'M','Client 1','Toto','Adresse 1','Adresse 2','Adresse 3',1,'0102030405','client1@example.com','0607080910',1),(2,'F','Client 2','Prenom 2','Adresse 1','Adresse 2','Adresse 3',2,'0102030406','client2@example.com','0607080911',0),(3,'M','Bueno','Gael','add1','add2','add3',1,'0400000000','gb@example.com','0600000000',1);
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `commande`
+-- Table structure for table `client_programme_fidelite`
 --
 
-DROP TABLE IF EXISTS `commande`;
+DROP TABLE IF EXISTS `client_programme_fidelite`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `commande` (
-  `codcde` int NOT NULL AUTO_INCREMENT,
-  `datcde` date DEFAULT NULL,
-  `codcli` int DEFAULT NULL,
-  `timbrecli` float DEFAULT NULL,
-  `timbre_cde` float DEFAULT NULL,
-  `nbcolis` int DEFAULT NULL,
-  `cheqcli` float DEFAULT NULL,
-  `idcondit` int DEFAULT NULL,
-  `cdeComt` varchar(255) DEFAULT NULL,
-  `barchive` int DEFAULT NULL,
-  `bstock` int DEFAULT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`codcde`),
-  KEY `codcli` (`codcli`),
-  KEY `commande_index` (`cdeComt`,`codcli`),
-  CONSTRAINT `commande_ibfk_1` FOREIGN KEY (`codcli`) REFERENCES `client` (`codcli`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `client_programme_fidelite` (
+  `client_id` int NOT NULL,
+  `programme_fidelite_id` int NOT NULL,
+  PRIMARY KEY (`client_id`,`programme_fidelite_id`),
+  KEY `programme_fidelite_id` (`programme_fidelite_id`),
+  CONSTRAINT `client_programme_fidelite_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `client` (`codcli`),
+  CONSTRAINT `client_programme_fidelite_ibfk_2` FOREIGN KEY (`programme_fidelite_id`) REFERENCES `programme_fidelite` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `commande`
+-- Dumping data for table `client_programme_fidelite`
 --
 
-LOCK TABLES `commande` WRITE;
-/*!40000 ALTER TABLE `commande` DISABLE KEYS */;
-INSERT INTO `commande` VALUES (1,'2023-01-01',1,1,1,1,1,1,'Commentaire 1',0,0,'Commande 1'),(2,'2023-01-02',2,2,2,2,2,2,'Commentaire 2',0,0,'Commande 2');
-/*!40000 ALTER TABLE `commune` ENABLE KEYS */;
+LOCK TABLES `client_programme_fidelite` WRITE;
+/*!40000 ALTER TABLE `client_programme_fidelite` DISABLE KEYS */;
+INSERT INTO `client_programme_fidelite` VALUES (1,1),(2,2);
+/*!40000 ALTER TABLE `commande` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `conditionnement`
+-- Table structure for table `commune`
 --
 
-DROP TABLE IF EXISTS `conditionnement`;
+DROP TABLE IF EXISTS `commune`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `conditionnement` (
-  `idcondit` int NOT NULL AUTO_INCREMENT,
-  `libcondit` varchar(50) DEFAULT NULL,
-  `poidscondit` int DEFAULT NULL,
-  `prixcond` decimal(10,0) DEFAULT NULL,
-  `ordreimp` int DEFAULT NULL,
-  PRIMARY KEY (`idcondit`)
+CREATE TABLE `commune` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `code_postal` varchar(50) DEFAULT NULL,
+  `nom` varchar(50) DEFAULT NULL,
+  `departement_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `departement_id` (`departement_id`),
+  KEY `ix_commune_id` (`id`),
+  CONSTRAINT `commune_ibfk_1` FOREIGN KEY (`departement_id`) REFERENCES `departement` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `conditionnement`
+-- Dumping data for table `commune`
 --
 
-LOCK TABLES `conditionnement` WRITE;
-/*!40000 ALTER TABLE `conditionnement` DISABLE KEYS */;
-INSERT INTO `conditionnement` VALUES (1,'Conditionnement 1',1,10,1),(2,'Conditionnement 2',2,20,2);
+LOCK TABLES `commune` WRITE;
+/*!40000 ALTER TABLE `commune` DISABLE KEYS */;
+INSERT INTO `commune` VALUES (1,'34000','Montpellier',1),(2,'31000','Toulouse',2);
 /*!40000 ALTER TABLE `conditionnement` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,73 +132,69 @@ CREATE TABLE `departement` (
 LOCK TABLES `departement` WRITE;
 /*!40000 ALTER TABLE `departement` DISABLE KEYS */;
 INSERT INTO `departement` VALUES (1,'34','Hérault'),(2,'31','Haute-Garonne');
-/*!40000 ALTER TABLE `detailcde` ENABLE KEYS */;
+/*!40000 ALTER TABLE `departement` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `detailob`
+-- Table structure for table `detailcde`
 --
 
-DROP TABLE IF EXISTS `detailob`;
+DROP TABLE IF EXISTS `detailcde`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `detailob` (
+CREATE TABLE `detailcde` (
   `id` int NOT NULL AUTO_INCREMENT,
   `detail_id` int DEFAULT NULL,
   `objet_id` int DEFAULT NULL,
+  `codcde` int DEFAULT NULL,
+  `qte` int DEFAULT NULL,
+  `colis` int DEFAULT NULL,
+  `commentaire` varchar(100) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `detail_id` (`detail_id`),
-  KEY `objet_id` (`objet_id`),
-  CONSTRAINT `detailob_ibfk_1` FOREIGN KEY (`detail_id`) REFERENCES `detailcde` (`id`),
-  CONSTRAINT `detailob_ibfk_2` FOREIGN KEY (`objet_id`) REFERENCES `objet` (`codobj`)
+  KEY `ix_detailcde_objet_id` (`objet_id`),
+  KEY `ix_detailcde_codcde` (`codcde`),
+  KEY `ix_detailcde_detail_id` (`detail_id`),
+  CONSTRAINT `detailcde_ibfk_1` FOREIGN KEY (`codcde`) REFERENCES `commande` (`codcde`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `detailob`
+-- Dumping data for table `detailcde`
 --
 
-LOCK TABLES `detailob` WRITE;
-/*!40000 ALTER TABLE `detailob` DISABLE KEYS */;
-INSERT INTO `detailob` VALUES (1,1,1,'DetailObjet 1'),(2,2,2,'DetailObjet 2');
-/*!40000 ALTER TABLE `enseigne` ENABLE KEYS */;
+LOCK TABLES `detailcde` WRITE;
+/*!40000 ALTER TABLE `detailcde` DISABLE KEYS */;
+INSERT INTO `detailcde` VALUES (1,1,1,1,1,1,'Commentaire 1','Detail 1'),(2,2,2,2,2,2,'Commentaire 2','Detail 2');
+/*!40000 ALTER TABLE `detailob` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `objet`
+-- Table structure for table `enseigne`
 --
 
-DROP TABLE IF EXISTS `objet`;
+DROP TABLE IF EXISTS `enseigne`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `objet` (
-  `codobj` int NOT NULL AUTO_INCREMENT,
-  `libobj` varchar(50) DEFAULT NULL,
-  `tailleobj` varchar(50) DEFAULT NULL,
-  `puobj` decimal(10,4) DEFAULT NULL,
-  `poidsobj` decimal(10,4) DEFAULT NULL,
-  `indispobj` int DEFAULT NULL,
-  `o_imp` int DEFAULT NULL,
-  `o_aff` int DEFAULT NULL,
-  `o_cartp` int DEFAULT NULL,
-  `points` int DEFAULT NULL,
-  `o_ordre_aff` int DEFAULT NULL,
-  `conditionnement_id` int DEFAULT NULL,
-  PRIMARY KEY (`codobj`),
-  KEY `conditionnement_id` (`conditionnement_id`),
-  KEY `ix_objet_codobj` (`codobj`),
-  CONSTRAINT `objet_ibfk_1` FOREIGN KEY (`conditionnement_id`) REFERENCES `conditionnement` (`idcondit`)
+CREATE TABLE `enseigne` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `libelle` varchar(50) DEFAULT NULL,
+  `ville` varchar(50) DEFAULT NULL,
+  `departement_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `departement_id` (`departement_id`),
+  KEY `ix_enseigne_id` (`id`),
+  CONSTRAINT `enseigne_ibfk_1` FOREIGN KEY (`departement_id`) REFERENCES `departement` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `objet`
+-- Dumping data for table `enseigne`
 --
 
-LOCK TABLES `objet` WRITE;
-/*!40000 ALTER TABLE `objet` DISABLE KEYS */;
-INSERT INTO `objet` VALUES (1,'Objet 1','Taille 1',10.0000,1.0000,0,1,1,1,10,1,1),(2,'Objet 2','Taille 2',20.0000,2.0000,0,2,2,2,20,2,2);
+LOCK TABLES `enseigne` WRITE;
+/*!40000 ALTER TABLE `enseigne` DISABLE KEYS */;
+INSERT INTO `enseigne` VALUES (1,'Enseigne 1','Ville 1',1),(2,'Enseigne 2','Ville 2',2);
 /*!40000 ALTER TABLE `objet` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -207,65 +220,86 @@ CREATE TABLE `poids` (
 LOCK TABLES `poids` WRITE;
 /*!40000 ALTER TABLE `poids` DISABLE KEYS */;
 INSERT INTO `poids` VALUES (1,10,20),(2,15,25);
-/*!40000 ALTER TABLE `programme_fidelite` ENABLE KEYS */;
+/*!40000 ALTER TABLE `poids` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `promo`
+-- Table structure for table `programme_fidelite`
 --
 
-DROP TABLE IF EXISTS `promo`;
+DROP TABLE IF EXISTS `programme_fidelite`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `promo` (
+CREATE TABLE `programme_fidelite` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) DEFAULT NULL,
-  `discount_percentage` decimal(5,2) DEFAULT NULL,
-  `points_required` decimal(10,2) DEFAULT NULL,
+  `points` decimal(10,2) DEFAULT NULL,
+  `level` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `ix_promo_id` (`id`)
+  KEY `ix_programme_fidelite_id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `promo`
+-- Dumping data for table `programme_fidelite`
 --
 
-LOCK TABLES `promo` WRITE;
-/*!40000 ALTER TABLE `promo` DISABLE KEYS */;
-INSERT INTO `promo` VALUES (1,'Promo 1',10.00,100.00),(2,'Promo 2',20.00,200.00);
-/*!40000 ALTER TABLE `role` ENABLE KEYS */;
+LOCK TABLES `programme_fidelite` WRITE;
+/*!40000 ALTER TABLE `programme_fidelite` DISABLE KEYS */;
+INSERT INTO `programme_fidelite` VALUES (1,100.00,'Silver'),(2,200.00,'Gold');
+/*!40000 ALTER TABLE `promo` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `t_rel_cond`
+-- Table structure for table `role`
 --
 
-DROP TABLE IF EXISTS `t_rel_cond`;
+DROP TABLE IF EXISTS `role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_rel_cond` (
-  `idrelcond` int NOT NULL AUTO_INCREMENT,
-  `qteobjdeb` int DEFAULT NULL,
-  `qteobjfin` int DEFAULT NULL,
-  `codobj` int DEFAULT NULL,
-  `codcond` int DEFAULT NULL,
-  PRIMARY KEY (`idrelcond`),
-  KEY `codobj` (`codobj`),
-  KEY `codcond` (`codcond`),
-  KEY `ix_t_rel_cond_idrelcond` (`idrelcond`),
-  CONSTRAINT `t_rel_cond_ibfk_1` FOREIGN KEY (`codobj`) REFERENCES `objet` (`codobj`),
-  CONSTRAINT `t_rel_cond_ibfk_2` FOREIGN KEY (`codcond`) REFERENCES `conditionnement` (`idcondit`)
+CREATE TABLE `role` (
+  `codrole` int NOT NULL AUTO_INCREMENT,
+  `librole` varchar(25) DEFAULT NULL,
+  PRIMARY KEY (`codrole`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `t_rel_cond`
+-- Dumping data for table `role`
 --
 
-LOCK TABLES `t_rel_cond` WRITE;
-/*!40000 ALTER TABLE `t_rel_cond` DISABLE KEYS */;
-INSERT INTO `t_rel_cond` VALUES (1,10,20,1,1),(2,15,25,2,2);
+LOCK TABLES `role` WRITE;
+/*!40000 ALTER TABLE `role` DISABLE KEYS */;
+INSERT INTO `role` VALUES (1,'Role 1'),(2,'Role 2');
+/*!40000 ALTER TABLE `t_rel_cond` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `transaction`
+--
+
+DROP TABLE IF EXISTS `transaction`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `transaction` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int DEFAULT NULL,
+  `amount_spent` decimal(10,2) DEFAULT NULL,
+  `points_earned` decimal(10,2) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `ix_transaction_id` (`id`),
+  CONSTRAINT `transaction_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `client` (`codcli`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `transaction`
+--
+
+LOCK TABLES `transaction` WRITE;
+/*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
+INSERT INTO `transaction` VALUES (1,1,100.00,10.00,'Transaction 1'),(2,2,200.00,20.00,'Transaction 2');
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -329,4 +363,4 @@ INSERT INTO `vignette` VALUES (1,10,20),(2,15,25);
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-17 13:13:08
+-- Dump completed on 2024-09-18 14:18:23
