@@ -97,59 +97,23 @@ Ce projet est une API développée avec FastAPI qui fournit des fonctionnalités
 
 ### Programme de Fidélité
 
-1. **Ajouter une transaction**
-   - **Route:** `POST /programmefidelite/transaction`
-   - **Description:** Ajoute une transaction à un utilisateur et calcule les points de fidélité gagnés.
+1. **Voir le programme de fidélité d 'un client**
+   - **Route:** `GET/fidelite/fidelite/{client_id}`
+   - **Description:** Récupére le programme de fidélité d'un client.
    - **Corps de la requête:**
      ```json
      {
        "user_id": 1,
-       "amount_spent": 100
      }
      ```
    - **Réponse:**
      ```json
-     {
-       "user_id": 1,
-       "points_earned": 10,
-       "total_points": 110
-     }
-     ```
-
-2. **Ajouter un bonus**
-   - **Route:** `POST /programmefidelite/bonus`
-   - **Description:** Ajoute un bonus de points à un utilisateur.
-   - **Corps de la requête:**
-     ```json
-     {
-       "user_id": 1,
-       "bonus_type": "Anniversaire",
-       "points": 50
-     }
-     ```
-   - **Réponse:**
-     ```json
-     {
-       "user_id": 1,
-       "bonus_type": "Anniversaire",
-       "points": 50,
-       "total_points": 160
-     }
-     ```
-
-3. **Vérification de l'éligibilité à une promotion**
-   - **Route:** `GET /programmefidelite/promo/{user_id}/{promo_id}`
-   - **Description:** Vérifie si un utilisateur est éligible à une promotion donnée selon ses points de fidélité.
-   - **Réponse:**
-     ```json
-     {
-       "eligible": true,
-       "promo": {
-         "id": 1,
-         "description": "10% de réduction",
-         "points_required": 100
-       }
-     }
+  {
+    "id": 1,
+    "user_id": 1,
+    "points": 100,
+    "level": "Silver"
+  }
      ```
 
 ### Gestion des Commandes
@@ -159,88 +123,69 @@ Ce projet est une API développée avec FastAPI qui fournit des fonctionnalités
    - **Description:** Crée une nouvelle commande.
    - **Corps de la requête:**
      ```json
-     {
-       "client_id": 1,
-       "produits": [
-         {
-           "produit_id": 101,
-           "quantité": 2
-         }
-       ]
-     }
+    {
+      "datcde": "2024-09-18",
+      "codcli": 0,
+      "timbrecli": 0,
+      "timbre_cde": 0,
+      "nbcolis": 1,
+      "cheqcli": 0,
+      "idcondit": 0,
+      "cdeComt": "string",
+      "barchive": 0,
+      "bstock": 0
+    }
      ```
    - **Réponse:**
      ```json
-     {
-       "id": 1,
-       "client_id": 1,
-       "produits": [
-         {
-           "produit_id": 101,
-           "quantité": 2
-         }
-       ],
-       "total": 50
-     }
+    {
+      "datcde": "2024-09-18",
+      "codcli": 0,
+      "timbrecli": 0,
+      "timbre_cde": 0,
+      "nbcolis": 1,
+      "cheqcli": 0,
+      "idcondit": 0,
+      "cdeComt": "string",
+      "barchive": 0,
+      "bstock": 0,
+     "codcde": 0
+    }
      ```
 
-2. **Récupérer une commande par ID**
-   - **Route:** `GET /commandes/{id}`
-   - **Description:** Récupère les détails d'une commande à partir de son ID.
+2. **Récupérer les commandes**
+   - **Route:** `GET /commandes`
+   - **Description:** Récupère les détails des commandes.
    - **Réponse:**
      ```json
-     {
-       "id": 1,
-       "client_id": 1,
-       "produits": [
-         {
-           "produit_id": 101,
-           "quantité": 2
-         }
-       ],
-       "total": 50
-     }
+ {
+    "datcde": "2023-01-01",
+    "codcli": 1,
+    "timbrecli": 1,
+    "timbre_cde": 1,
+    "nbcolis": 1,
+    "cheqcli": 1,
+    "idcondit": 1,
+    "cdeComt": "Commentaire 1",
+    "barchive": 0,
+    "bstock": 0,
+    "codcde": 1
+  },
+  {
+    "datcde": "2023-01-02",
+    "codcli": 2,
+    "timbrecli": 2,
+    "timbre_cde": 2,
+    "nbcolis": 2,
+    "cheqcli": 2,
+    "idcondit": 2,
+    "cdeComt": "Commentaire 2",
+    "barchive": 0,
+    "bstock": 0,
+    "codcde": 2
+  }
      ```
 
-3. **Mettre à jour une commande**
-   - **Route:** `PUT /commandes/{id}`
-   - **Description:** Met à jour une commande existante.
-   - **Corps de la requête:**
-     ```json
-     {
-       "client_id": 1,
-       "produits": [
-         {
-           "produit_id": 101,
-           "quantité": 3
-         }
-       ]
-     }
-     ```
-   - **Réponse:**
-     ```json
-     {
-       "id": 1,
-       "client_id": 1,
-       "produits": [
-         {
-           "produit_id": 101,
-           "quantité": 3
-         }
-       ],
-       "total": 75
-     }
-     ```
-
-4. **Supprimer une commande**
-   - **Route:** `DELETE /commandes/{id}`
-   - **Description:** Supprime une commande existante par son ID.
-   - **Réponse:**
-     ```json
-     {
-       "message": "Commande supprimée avec succès"
-     }
-     ```
 
 ### Gestion des Clients
 
@@ -250,16 +195,34 @@ Ce projet est une API développée avec FastAPI qui fournit des fonctionnalités
    - **Réponse:**
      ```json
      [
-       {
-         "id": 1,
-         "nom": "Jean Dupont",
-         "email": "jean.dupont@example.com"
-       },
-       {
-         "id": 2,
-         "nom": "Marie Curie",
-         "email": "marie.curie@example.com"
-       }
+{
+    "codcli": 1,
+    "genre": "M",
+    "nom": "Client 1",
+    "prenom": "Toto",
+    "adresse1": "Adresse 1",
+    "adresse2": "Adresse 2",
+    "adresse3": "Adresse 3",
+    "ville_id": 1,
+    "telephone": "0102030405",
+    "email": "client1@example.com",
+    "portable": "0607080910",
+    "newsletter": true
+  },
+  {
+    "codcli": 2,
+    "genre": "F",
+    "nom": "Client 2",
+    "prenom": "Prenom 2",
+    "adresse1": "Adresse 1",
+    "adresse2": "Adresse 2",
+    "adresse3": "Adresse 3",
+    "ville_id": 2,
+    "telephone": "0102030406",
+    "email": "client2@example.com",
+    "portable": "0607080911",
+    "newsletter": false
+  },
      ]
      ```
 
@@ -268,38 +231,39 @@ Ce projet est une API développée avec FastAPI qui fournit des fonctionnalités
    - **Description:** Crée un nouveau client.
    - **Corps de la requête:**
      ```json
-     {
-       "nom": "Jean Dupont",
-       "email": "jean.dupont@example.com"
-     }
+{
+  "genre": "string",
+  "nom": "string",
+  "prenom": "string",
+  "adresse1": "string",
+  "adresse2": "string",
+  "adresse3": "string",
+  "ville_id": 0,
+  "telephone": "string",
+  "email": "user@example.com",
+  "portable": "string",
+  "newsletter": true
+}
      ```
    - **Réponse:**
      ```json
-     {
-       "id": 1,
-       "nom": "Jean Dupont",
-       "email": "jean.dupont@example.com"
-     }
+{
+  "codcli": 0,
+  "genre": "string",
+  "nom": "string",
+  "prenom": "string",
+  "adresse1": "string",
+  "adresse2": "string",
+  "adresse3": "string",
+  "ville_id": 0,
+  "telephone": "string",
+  "email": "user@example.com",
+  "portable": "string",
+  "newsletter": true
+}
      ```
 
-3. **Mettre à jour un client**
-   - **Route:** `PUT /clients/{id}`
-   - **Description:** Met à jour les informations d'un client existant.
-   - **Corps de la requête:**
-     ```json
-     {
-       "nom": "Jean Dupont",
-       "email": "jean.dupont@newdomain.com"
-     }
-     ```
-   - **Réponse:**
-     ```json
-     {
-       "id": 1,
-       "nom": "Jean Dupont",
-       "email": "jean.dupont@newdomain.com"
-     }
-     ```
+
 
 4. **Supprimer un client**
    - **Route:** `DELETE /clients/{id}`
@@ -319,11 +283,14 @@ Le projet utilise des modèles SQLAlchemy pour gérer les interactions avec la b
 
 ```python
 class ProgrammeFidelite(Base):
-    __tablename__ = "programmefidelite"
+    __tablename__ = "programme_fidelite"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    points = Column(Float, default=0.0)
+    points = Column(Numeric(precision=10, scale=2), default=0)
+    level = Column(String(50))  # Silver, Gold, etc.
+
+    clients = relationship("Client", secondary=client_programme_fidelite, back_populates="programmes_fidelite")
+
 ```
 
 uvicorn app.main:app --reload
