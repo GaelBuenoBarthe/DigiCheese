@@ -9,12 +9,12 @@ class Commune(Base):
     """
     __tablename__ = "commune"
 
-    id = Column(Integer, primary_key=True, index=True)  # Clé primaire, auto-incrémentée
-    code_postal = Column(String(50))  # Code postal de la commune
-    nom = Column(String(50))  # Nom de la commune
+    id = Column(Integer, primary_key=True, index=True)
+    code_postal = Column(String(50))
+    nom = Column(String(50))
 
     # Relation avec Departement (n-1)
-    departement_id = Column(Integer, ForeignKey("departement.id"))  # Clé étrangère vers le département
+    departement_id = Column(Integer, ForeignKey("departement.id"))
     departement = relationship("Departement", back_populates="communes")
 
     # Relation avec Client (1-n)

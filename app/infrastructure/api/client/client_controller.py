@@ -19,7 +19,7 @@ def get_client(client_id: int, db: Session):
     try:
         client = db.query(Client).filter(Client.codcli == client_id).first()
         if not client:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Client not found")
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Client inexistant")
         return client
     except Exception as e:
         raise HTTPException(

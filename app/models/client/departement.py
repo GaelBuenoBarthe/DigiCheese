@@ -9,9 +9,9 @@ class Departement(Base):
     """
     __tablename__ = "departement"
 
-    id = Column(Integer, primary_key=True, index=True)  # Clé primaire, auto-incrémentée
-    code = Column(String(50))  # Code du département
-    nom = Column(String(50))  # Nom du département
+    id = Column(Integer, primary_key=True, index=True)
+    code = Column(String(50))
+    nom = Column(String(50))
 
     # Relation avec Commune (1-n)
     communes = relationship("Commune", back_populates="departement")

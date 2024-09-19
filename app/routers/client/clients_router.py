@@ -5,10 +5,9 @@ from app.database import get_db
 from app.schemas.client.client import ClientCreate, ClientUpdate, ClientResponse
 from app.infrastructure.api.client.client_controller import (
     get_all_clients,
-    delete_client as delete_client_controller,
     create_client as create_client_controller,
     update_client as update_client_controller,
-    get_client
+    get_client, delete_client
 )
 
 router = APIRouter()
@@ -36,4 +35,4 @@ def update_client_route(client_id: int, client: ClientUpdate, db: Session = Depe
 
 @router.delete("/{client_id}", response_model=dict)
 def delete_client_route(client_id: int, db: Session = Depends(get_db)) -> dict:
-    return delete_client_controller(client_id, db)
+    return delete_client(client_id, db)
